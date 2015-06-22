@@ -6,18 +6,28 @@ import java.awt.event.ActionListener;
 import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
 
 /**
- * @class: Interface for the user to view or modify the information
- *         in the databases
+ * Interface for the user to view or modify the information on the database
+ * @see JFrame
+ * @see ActionListener
  */
 public class DataBaseInterface extends JFrame implements ActionListener {
 
-  //Names of the databases used by the program
+  //Names of the rows of the database used by the program
   private final String databases[] = {"ExcludedWords", "FindWords", "Labels"};
 
+  //Conection with the database
+  private DataBaseManager database;
+
   /**
-   * @method Constructor of the Interface
+   * Constructor of the Interface with a GribBagLayout
+   * Create a new instance of DataBaseManager
+   * @see GribBagLayout
+   * @see DataBaseManager
    */
   public DataBaseInterface () {
+    //Initializate database
+    database = new DataBaseManager();
+
     //Configure the interface with a GribBagLayout -------------------------
     setTitle("DATABASE");
     setSize(400, 150);
@@ -29,7 +39,7 @@ public class DataBaseInterface extends JFrame implements ActionListener {
   }
 
   /**
-   * @method: Here are handled all the events activated in this interface
+   * Here are handled all the events activated in this interface
    */
   @Override
   public void actionPerformed(java.awt.event.ActionEvent evt) {

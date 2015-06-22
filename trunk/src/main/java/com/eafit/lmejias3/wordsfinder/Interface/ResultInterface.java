@@ -6,16 +6,20 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 
 /**
- * @class Interface to show the user the results of the searching
- *        Either from the database or a file
+ * Interface to show the user the results of the searching
+ * either from the database or a file
+ * @see JFrame
  */
 
 public class ResultInterface extends javax.swing.JFrame {
 
   /**
-   * @method: Constructor of the class
-   * @param: model: Model that contains the data of the table
-   * @param: message: Text to show to the user
+   * Constructor of the class using a BorderLayout
+   * create a JTable with the data to show at the user
+   * @param model Model that contains the data of the table
+   * @param message Text to show to the user
+   * @see BorderLayout
+   * @see JTable
    */
   public ResultInterface (DefaultTableModel model, String message) {
     setTitle("RESULTS");

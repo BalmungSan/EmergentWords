@@ -5,18 +5,19 @@ import javax.swing.*;
 import javax.swing.UIManager.*;
 
 /**
- * @project: WordsFinder; Java application to analyze texts
- *           to find the most repetitive words
- * @version: 0.1.0 (20/06/2015) "SANPSHOT"
- * @author: Luis Miguel Mejía Suárez "BalmungSan" (github.com/BalmungSan)
+ * Project WordsFinder: Java application to analyze texts
+ *                      to find the most repetitive words
+
+ * @version 0.1.1 (22/06/2015) "SANPSHOT"
+ * @author Luis Miguel Mejía Suárez "BalmungSan" (github.com/BalmungSan)
  *
- * @class: Main class all the code logic start here
+ * Main class all the code logic start here
  */
 public class MainWordsFinder {
 
   /**
-   * @method main method all the code logic runs here
-   * @param args: arguments passed to the program
+   * Main method all the code logic runs here
+   * @param args arguments passed to the program
    */
   public static void main (String[] args) {
     //Enabling the Nimbus Look and Feel------------------------------------

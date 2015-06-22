@@ -5,10 +5,10 @@ import java.util.*;
 import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsManager.*;
 
 /**
- * @class: This class opens the file selected by the user
- *         and read it word by word
+ * This class opens the file selected by the user and read it word by word
  */
 public class WordsFinder {
+
   //WordsManager Class reference to send all the found words
   private WordsManager mywm;
 
@@ -16,9 +16,9 @@ public class WordsFinder {
   private DefaultTableModel results;
 
   /**
-   * @method Here start all the logic of the program
-   * @param mode: char that indicate the mode selected by the user
-   * @param filename: path to file the user chose
+   * Here start all the logic of the program
+   * @param mode char that indicate the mode selected by the user
+   * @param filename path to file the user chose
    */
   public void findWords (char mode, String filename) {
     //Configure app to work with user selected mode
@@ -45,16 +45,17 @@ public class WordsFinder {
   }
 
   /**
-   * @method: Return the results of the search
-   * @return: TableModel with the results
+   * Return the results of the search
+   * @return TableModel with the results
+   * @see DeafaultTableModel
    */
   public DefaultTableModel getResults() {
     return results;
   }
 
   /**
-   * @method Detect what type of file is
-   * @param filename: path to file the user chose
+   * Detect what type of file is ('.doc', '.docx', '.pdf' or binary text)
+   * @param filename path to file the user chose
    */
   private void openfile (String filename) {
     if (filename.endsWith(".doc")) {
@@ -73,45 +74,46 @@ public class WordsFinder {
   }
 
   /**
-   * @method open a .doc file
-   * @param filename: path to file the user chose
+   * Open a .doc file
+   * @param filename path to file the user chose
    */
   private void opendoc (String filename) {
   }
 
   /**
-   * @method open a .docx file
-   * @param filename: path to file the user chose
+   * Open a .docx file
+   * @param filename path to file the user chose
    */
   private void opendocx (String filename) {
   }
 
   /**
-   * @method open a .pdf file
-   * @param filename: path to file the user chose
+   * Open a .pdf file
+   * @param filename path to file the user chose
    */
   private void openpdf (String filename) {
   }
 
   /**
-   * @method open a binary file
-   * @param filename: path to file the user chose
+   * Open a binary file
+   * @param filename path to file the user chose
    */
   private void openbinary (String filename) {
   }
 
   /**
-   * @method Breaks all the content of the file in words
-   *         separated by blank spaces
-   * @param contents: an string with all the data in the file
+   * Breaks all the content of the file in words separated by blank spaces
+   * @param contents a string with all the data in the file
    */
   private void getwords (String contents) {
   }
 
   /**
-   * @method: Sort a map<key, Integer value> by value
+   * Sort a map<String key, Integer value> by value
    * remark: This code was taken and adapted from:
    *         http://www.mkyong.com/java/how-to-sort-a-map-in-java/
+   * @param unsortMap the map to sort by value
+   * @see Map
    */
   private void sort (Map<String, Integer> unsortMap) {
 
@@ -131,11 +133,11 @@ public class WordsFinder {
     results = new DefaultTableModel();
     results.addColumn("WORD");
     results.addColumn("TIMES");
-		Object[] row;
+    Object[] row;
     for (Map.Entry<String, Integer> entry : list) {
-			row = new Object[2];
-			row[0] = entry.getKey();
-			row[1] = entry.getValue();
+      row = new Object[2];
+      row[0] = entry.getKey();
+      row[1] = entry.getValue();
       results.addRow(row);
     }
   }

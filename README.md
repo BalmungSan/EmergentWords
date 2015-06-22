@@ -1,10 +1,10 @@
 Project: WordsFinder; Java application to analyze texts for the most repetitive words
-Version: 0.1.0 (20/06/2015) "SNAPSHOT"
+Version: 0.1.1 (22/06/2015) "SNAPSHOT"
 Author: Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)
 
 Description:
    WordsFinder is a simple program with a intuitive graphical interface which allow the user to analyze a text file
-   Supports plain text, doc or docx files and pdf files
+   Supports plain text, doc or docx files and pdf files.
 
    The program have the following usage:
     *The user can find the most repetitive words in the file, excluding some words the user don't want
@@ -18,6 +18,24 @@ Description:
     Apache PDFBox to work with pdf files
     Apache CommonsIO to work IO Operations
     PHPMyAdmin to the database management
+
+Install:
+   Note:
+    In order to install wordsfiner on your computer you must have installed Maven, Java Runtime Environment (jre) 8 and PhpMyAdmin.
+
+   Installation steps:
+    1 Open PhpMyAdmin on any internet browser, it could be by localhost or any other server that you preffer
+      chose or create a database and export the file 'words.sql' to create the table 'words'.
+
+    2 With any text editor, open the file 'trunk/src/main/java/com/eafit/lmejias3/wordsfinder/DataBase/DataBaseManager.java'
+      And modify the lines 16, 19, 22 with your own path, user and password for the database respectively. 
+
+    3 Change to the directory 'trunk' (where is the 'pom.xml' file) and execute the comand 'mvn package'
+      This will create a Jar file in the directory 'trunk/target', the file will have the following name 'wordsfinder-version-(date)-name.jar'.
+
+    4 Finally copy the Jar wherever you want. 
+
+   ENJOY
 
 License:
    Copyright 2015 Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)

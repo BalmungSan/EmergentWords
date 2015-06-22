@@ -1,12 +1,13 @@
 <!-- Pom file to compile the project using maven -->
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.eafit.lmejias3.wordsfinder</groupId>
   <artifactId>wordsfinder</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.0-(20_06_2015)-SNAPSHOT</version>
+  <version>0.1.1-(22_06_2015)-SNAPSHOT</version>
   <name>wordsfinder</name>
   <url>http://maven.apache.org</url>
 
@@ -67,11 +68,36 @@
         </configuration>
       </plugin>
 
+      <!-- Maven javadoc generator plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.10.3</version>
+        <executions>
+          <execution>
+            <phase>package</phase>
+              <goals>
+                <goal>jar</goal>
+              </goals>
+              <configuration>
+                <!-- Links to external javadocs -->
+                <links>
+                  <!-- javadoc 8 -->
+                  <link> https://docs.oracle.com/javase/8/docs/api/ </link>
+                </links>
+
+                <additionalparam>-Xdoclint:none</additionalparam>
+              </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
       <!-- Maven cleaner plugin -->
       <plugin>
         <artifactId>maven-clean-plugin</artifactId>
         <version>2.6.1</version>
       </plugin>
+
     </plugins>
   </build>
 </project>

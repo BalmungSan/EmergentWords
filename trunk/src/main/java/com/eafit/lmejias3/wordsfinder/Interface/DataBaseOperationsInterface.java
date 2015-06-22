@@ -6,7 +6,9 @@ import java.awt.event.ActionListener;
 import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
 
 /**
- * @class: Interface for the user to add or remove rows to the selected DB
+ * Interface for the user to add or remove rows to the selected DB
+ * @see JFrame
+ * @see ActionListener
  */
 public class DataBaseOperationsInterface extends JFrame
   implements ActionListener {
@@ -15,8 +17,10 @@ public class DataBaseOperationsInterface extends JFrame
   private DataBaseManager database;
 
   /**
-   * @method Constructor of the Interface
-   * @param database: Reference to a DataBaseManager instance
+   * Constructor of the Interface with a GribBagLayout
+   * @param database Reference to a DataBaseManager instance
+   * @see GribBagLayout
+   * @see DataBaseManager
    */
   public DataBaseOperationsInterface (DataBaseManager database) {
     this.database = database;
@@ -32,7 +36,7 @@ public class DataBaseOperationsInterface extends JFrame
   }
 
   /**
-   * @method: Here are handled all the events activated in this interface
+   * Here are handled all the events activated in this interface
    */
   @Override
   public void actionPerformed(java.awt.event.ActionEvent evt) {
