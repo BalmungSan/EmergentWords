@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.Label;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
+import javax.swing.JFrame;
 
 /**
  * Interface to show the user the results of the searching
@@ -11,7 +12,7 @@ import javax.swing.JTable;
  * @see JFrame
  */
 
-public class ResultInterface extends javax.swing.JFrame {
+public class ResultInterface extends JFrame {
 
   /**
    * Constructor of the class using a BorderLayout

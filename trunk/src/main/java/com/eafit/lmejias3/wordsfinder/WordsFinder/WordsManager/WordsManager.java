@@ -11,10 +11,10 @@ import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
 public abstract class WordsManager {
 
   //Conection with database
-  private DataBaseManager database = new DataBaseManager();
+  DataBaseManager database;
 
   //Map <Words, Times> to save the searching results
-  private Map<String, Integer> found = new HashMap();
+  Map<String, Integer> found = new HashMap();
 
   /**
    * Add the word to the found map

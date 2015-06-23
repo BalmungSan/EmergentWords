@@ -2,7 +2,7 @@ package com.eafit.lmejias3.wordsfinder.Interface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsFinder;
 
 /**
@@ -12,11 +12,19 @@ import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsFinder;
  */
 public class WordsFinderInterface extends JFrame implements ActionListener {
 
+  //WordsFinder class to pass the file selected by the user
+  WordsFinder wordsfinder;
+
   /**
-   * Constructor of the Interface using a GribBagLayout
-   * @see GribBagLayout
+   * Constructor of the Interface using a GridBagLayout
+   * @param wf Reference to WordsFinder instance
+   * @see GridBagLayout
+   * @see WordsFinder
    */
-  public WordsFinderInterface () {
+  public WordsFinderInterface (WordsFinder wf) {
+    //Initializate wordsfinder
+    wordsfinder = wf;
+
     //Configure the interface with a GribBagLayout -------------------------
     setTitle("SETTINGS");
     setSize(400, 150);
@@ -29,8 +37,9 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
 
   /**
    * Here are handled all the events activated in this interface
+   * @see ActionEvent
    */
   @Override
-  public void actionPerformed(java.awt.event.ActionEvent evt) {
+  public void actionPerformed(ActionEvent evt) {
   }
 }

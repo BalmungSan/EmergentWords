@@ -1,5 +1,5 @@
 Project: WordsFinder; Java application to analyze texts for the most repetitive words
-Version: 0.1.1 (22/06/2015) "SNAPSHOT"
+Version: 0.1.2 (23/06/2015) "SNAPSHOT"
 Author: Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)
 
 Description:
@@ -22,6 +22,7 @@ Description:
 Install:
    Note:
     In order to install wordsfiner on your computer you must have installed Maven, Java Runtime Environment (jre) 8 and PhpMyAdmin.
+    And Internet connection.
 
    Installation steps:
     1 Open PhpMyAdmin on any internet browser, it could be by localhost or any other server that you preffer

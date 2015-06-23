@@ -2,7 +2,7 @@ package com.eafit.lmejias3.wordsfinder.Interface;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionListener;
+import java.awt.event.*;
 import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
 
 /**
@@ -17,28 +17,27 @@ public class DataBaseOperationsInterface extends JFrame
   private DataBaseManager database;
 
   /**
-   * Constructor of the Interface with a GribBagLayout
+   * Constructor of the Interface with a GridLayout
    * @param database Reference to a DataBaseManager instance
-   * @see GribBagLayout
+   * @see GridLayout
    * @see DataBaseManager
    */
   public DataBaseOperationsInterface (DataBaseManager database) {
     this.database = database;
 
-    //Configure the interface with a GribBagLayout -------------------------
+    //Configure the interface with a GribLayout -------------------------
     setTitle("DATABASE OPERATIONS");
     setSize(400, 150);
     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-    setLayout(new GridBagLayout());
-    GridBagConstraints c = new GridBagConstraints();
-    c.fill = GridBagConstraints.HORIZONTAL;
+    setLayout(new GridLayout(4,3));
     //----------------------------------------------------------------------
   }
 
   /**
    * Here are handled all the events activated in this interface
+   * @see ActionEvent
    */
   @Override
-  public void actionPerformed(java.awt.event.ActionEvent evt) {
+  public void actionPerformed(ActionEvent evt) {
   }
 }

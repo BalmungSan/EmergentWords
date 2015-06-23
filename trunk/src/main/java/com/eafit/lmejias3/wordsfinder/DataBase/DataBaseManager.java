@@ -13,7 +13,7 @@ public class DataBaseManager {
   private Connection con;
 
   //Database path
-  private final String DB = "//localhost/wordsfinder";
+  private final String DB = "//localhost/WordsFinder";
 
   //User name to login in local host with phpMyAdmin
   private final String USER = "root";
@@ -134,6 +134,7 @@ public class DataBaseManager {
   public void close () {
     try {
       con.close();
+      System.out.println("Connection with the database closed");
     } catch (SQLException ex) {
       System.err.println("Unexpected error ocurred with the database");
       System.err.println(ex.getMessage());

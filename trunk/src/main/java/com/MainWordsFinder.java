@@ -3,12 +3,13 @@ package com;
 import com.eafit.lmejias3.wordsfinder.Interface.MainInterface;
 import javax.swing.*;
 import javax.swing.UIManager.*;
+import java.awt.event.*;
 
 /**
  * Project WordsFinder: Java application to analyze texts
  *                      to find the most repetitive words
 
- * @version 0.1.1 (22/06/2015) "SANPSHOT"
+ * @version 0.1.2 (23/06/2015) "SANPSHOT"
  * @author Luis Miguel Mejía Suárez "BalmungSan" (github.com/BalmungSan)
  *
  * Main class all the code logic start here
@@ -35,6 +36,16 @@ public class MainWordsFinder {
     //---------------------------------------------------------------------
 
     MainInterface program = new MainInterface();
+    //Create our own WindowAdpater to override the method windowClosing
+    program.addWindowListener(new WindowAdapter() {
+        @Override
+        public void windowClosing(WindowEvent event) {
+          program.close();
+          program.dispose();
+          System.exit(0);
+        }
+      });
+    //----------------------------------------------------------------------
     program.setVisible(true);
   }
 }

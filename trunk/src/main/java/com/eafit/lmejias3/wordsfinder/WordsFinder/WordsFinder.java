@@ -3,6 +3,7 @@ package com.eafit.lmejias3.wordsfinder.WordsFinder;
 import javax.swing.table.DefaultTableModel;
 import java.util.*;
 import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsManager.*;
+import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
 
 /**
  * This class opens the file selected by the user and read it word by word
@@ -15,25 +16,37 @@ public class WordsFinder {
   //Table model to store the results and prit them in ResultsInterface
   private DefaultTableModel results;
 
+  //Conection with database
+  private DataBaseManager database;
+
+  /**
+   * Constructor of the class
+   * @param database Reference to a instance of DataBaseManager
+   * @see DataBaseManager
+   */
+  public WordsFinder (DataBaseManager database) {
+    this.database = database;
+  }
+
   /**
    * Here start all the logic of the program
-   * @param mode char that indicate the mode selected by the user
-   * @param filename path to file the user chose
+   * @param mode Flag that indicate the mode selected by the user
+   * @param filename Path to file the user chose
    */
   public void findWords (char mode, String filename) {
     //Configure app to work with user selected mode
     switch (mode) {
     case 'f':
       //The mode is to find specific words
-      mywm = new WMFind();
+      mywm = new WMFind(database);
       break;
     case 'e':
       //The mode is to find all words
-      mywm = new WMExclude();
+      mywm = new WMExclude(database);
       break;
     case 'l':
       //The mode is to find labels
-      mywm = new WMLabels();
+      mywm = new WMLabels(database);
       break;
     }
 
@@ -47,7 +60,7 @@ public class WordsFinder {
   /**
    * Return the results of the search
    * @return TableModel with the results
-   * @see DeafaultTableModel
+   * @see DefaultTableModel
    */
   public DefaultTableModel getResults() {
     return results;
@@ -55,7 +68,7 @@ public class WordsFinder {
 
   /**
    * Detect what type of file is ('.doc', '.docx', '.pdf' or binary text)
-   * @param filename path to file the user chose
+   * @param filename Path to file the user chose
    */
   private void openfile (String filename) {
     if (filename.endsWith(".doc")) {
@@ -75,35 +88,35 @@ public class WordsFinder {
 
   /**
    * Open a .doc file
-   * @param filename path to file the user chose
+   * @param filename Path to file the user chose
    */
   private void opendoc (String filename) {
   }
 
   /**
    * Open a .docx file
-   * @param filename path to file the user chose
+   * @param filename Path to file the user chose
    */
   private void opendocx (String filename) {
   }
 
   /**
    * Open a .pdf file
-   * @param filename path to file the user chose
+   * @param filename Path to file the user chose
    */
   private void openpdf (String filename) {
   }
 
   /**
    * Open a binary file
-   * @param filename path to file the user chose
+   * @param filename Path to file the user chose
    */
   private void openbinary (String filename) {
   }
 
   /**
    * Breaks all the content of the file in words separated by blank spaces
-   * @param contents a string with all the data in the file
+   * @param contents All the data in the file
    */
   private void getwords (String contents) {
   }
@@ -112,7 +125,7 @@ public class WordsFinder {
    * Sort a map<String key, Integer value> by value
    * remark: This code was taken and adapted from:
    *         http://www.mkyong.com/java/how-to-sort-a-map-in-java/
-   * @param unsortMap the map to sort by value
+   * @param unsortMap Map to sort by value
    * @see Map
    */
   private void sort (Map<String, Integer> unsortMap) {

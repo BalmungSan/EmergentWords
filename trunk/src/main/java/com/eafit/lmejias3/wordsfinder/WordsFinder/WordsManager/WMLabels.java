@@ -16,9 +16,21 @@ public class WMLabels extends  WordsManager {
   /**
    * Constructor of the class
    * get the words's labels from the database
+   * @param database Reference to DataBaseManager
+   * @see DataBaseManager
    */
-  public WMLabels () {
+  public WMLabels (DataBaseManager database) {
+    this.database = database;
     labels = new HashMap<>();
+
+    //row = {'word', 'label'}
+    for (String[] row : database.getall("Label")) {
+      //Add to labels the pair wors -> label
+      labels.put(row[0], row[1]);
+
+      //Add the label with a counter of 0
+      found.put(row[1], 0);
+    }
   }
 
   /**
@@ -27,5 +39,12 @@ public class WMLabels extends  WordsManager {
    */
   @Override
   public void addword (String word) {
+    if (labels.get(word) != null) {
+      //If word has a label defined by the user
+      //Increase the counter
+      String label = labels.get(word);
+      int counter = found.get(label) + 1;
+      found.replace(label, counter);
+    }
   }
 }

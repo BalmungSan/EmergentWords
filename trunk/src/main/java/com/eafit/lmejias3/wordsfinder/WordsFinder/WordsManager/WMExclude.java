@@ -10,14 +10,23 @@ import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
 public class WMExclude extends WordsManager {
 
   //Set of excluded words
-  private Set<String> excludedwords;
+  private Set<String> excluded;
 
   /**
    * Constructor of the class
    * get the set of Excluded words from the database
+   * @param database Reference to DataBaseManager
+   * @see DataBaseManager
    */
-  public WMExclude () {
-    excludedwords = new HashSet<>();
+  public WMExclude (DataBaseManager database) {
+    this.database = database;
+    excluded = new HashSet<>();
+
+    //row = {'word', "TRUE"};
+    for (String[] row : database.getall("Excluded")) {
+      //Add word to the excluded set
+      excluded.add(row[0]);
+    }
   }
 
   /**
@@ -27,5 +36,18 @@ public class WMExclude extends WordsManager {
    */
   @Override
   public void addword (String word) {
+    if (!excluded.contains(word)) {
+      //If word is not a excluded word
+
+      if (found.get(word) != null) {
+        //If word has been already found
+        //Increase the counter
+        int times = found.get(word) + 1;
+        found.replace(word, times);
+      } else {
+        //If not, add to the map with count of 1
+        found.put(word, 1);
+      }
+    }
   }
 }
