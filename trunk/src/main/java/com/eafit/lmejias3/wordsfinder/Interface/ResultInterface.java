@@ -5,13 +5,13 @@ import java.awt.Label;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.JTable;
 import javax.swing.JFrame;
+import javax.swing.WindowConstants;
 
 /**
  * Interface to show the user the results of the searching
  * either from the database or a file
  * @see JFrame
  */
-
 public class ResultInterface extends JFrame {
 
   /**
@@ -25,7 +25,7 @@ public class ResultInterface extends JFrame {
   public ResultInterface (DefaultTableModel model, String message) {
     setTitle("RESULTS");
     setLayout(new BorderLayout());
-    setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+    setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     setSize(350, 120);
     add(new Label(message), BorderLayout.NORTH);
     add(new JTable(model), BorderLayout.CENTER);

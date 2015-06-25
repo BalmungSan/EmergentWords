@@ -24,7 +24,7 @@ public class WMLabels extends  WordsManager {
     labels = new HashMap<>();
 
     //row = {'word', 'label'}
-    for (String[] row : database.getall("Label")) {
+    for (String[] row : database.getAll("Label")) {
       //Add to labels the pair wors -> label
       labels.put(row[0], row[1]);
 

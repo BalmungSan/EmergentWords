@@ -33,18 +33,18 @@ public class WordsFinder {
    * @param mode Flag that indicate the mode selected by the user
    * @param filename Path to file the user chose
    */
-  public void findWords (char mode, String filename) {
+  public void findWords (String mode, String filename) {
     //Configure app to work with user selected mode
     switch (mode) {
-    case 'f':
+    case "F":
       //The mode is to find specific words
       mywm = new WMFind(database);
       break;
-    case 'e':
+    case "E":
       //The mode is to find all words
       mywm = new WMExclude(database);
       break;
-    case 'l':
+    case "L":
       //The mode is to find labels
       mywm = new WMLabels(database);
       break;

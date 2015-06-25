@@ -3,6 +3,7 @@ package com.eafit.lmejias3.wordsfinder.DataBase;
 import java.sql.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
 
 /**
  *This class manage all the operations with the database
@@ -20,10 +21,6 @@ public class DataBaseManager {
 
   //Password for user to login in local host with phpMyAdmin
   private final String PASSWORD = "a120020254B.";
-
-  //Query to update the table
-  private final String update = "INSERT INTO `words` (Word, ?) VALUES (?, ?)"
-    + " ON DUPLICATE KEY UPDATE ?=?";
 
   /**
    * Constructor of the class, gets a connection with the database
@@ -56,7 +53,7 @@ public class DataBaseManager {
    * @param column name of the column to match
    * @return a List with all the words
    */
-  public List<String[]> getall (String column) {
+  public List<String[]> getAll (String column) {
     String[] data;
     List<String[]> result = new ArrayList<>();
     Statement st = null;
@@ -95,6 +92,43 @@ public class DataBaseManager {
   }
 
   /**
+   * Get all the different values of a column sorted alphabetically
+   * @param column name of the column to match
+   * @return a List with all the different values of the column
+   */
+  public List<String> getDifferent (String column) {
+    List<String> result = new ArrayList<>();
+    Statement st = null;
+    ResultSet rs = null;
+
+    try {
+      st  = con.createStatement();
+      rs = st.executeQuery("select distinct " + column +" from words");
+
+      //Save the information
+      while (rs.next()) {
+        if (!rs.getString(1).equals("FALSE")) result.add(rs.getString(1));
+      }
+    } catch (SQLException ex) {
+      System.err.println("Unexpected error ocurred with the database");
+      System.err.println(ex.getMessage());
+      System.exit(1);
+    } finally {
+      try {
+        if (st != null) st.close();
+        if (rs != null) rs.close();
+      } catch (SQLException ex) {
+        System.err.println("Unexpected error ocurred with the database");
+        System.err.println(ex.getMessage());
+        System.exit(1);
+      }
+    }
+
+    Collections.sort(result);
+    return result;
+  }
+
+  /**
    * Add data to the database
    * Add a new row if word not exist
    * If exist, update the row
@@ -102,16 +136,17 @@ public class DataBaseManager {
    * @param column name of the column where the information is inserted
    * @param data information to store in column
    */
-  public void updatedata (String word, String column, String data) {
+  public void updateData (String word, String column, String data) {
+    //Query to update the table
     PreparedStatement pst = null;
+    String update = "INSERT INTO `words` (Word, " + column + ") VALUES " +
+      "(?, ?) ON DUPLICATE KEY UPDATE " + column + "=?";
 
     try {
       pst = con.prepareStatement(update);
-      pst.setString(1, column);
-      pst.setString(2, word);
+      pst.setString(1, word);
+      pst.setString(2, data);
       pst.setString(3, data);
-      pst.setString(4, column);
-      pst.setString(5, data);
       pst.executeUpdate();
     } catch (SQLException ex) {
       System.err.println("Unexpected error ocurred with the database");
@@ -129,9 +164,11 @@ public class DataBaseManager {
   }
 
   /**
-   * Close the connection with the database
+   * Close the connection with the database and erase innecesary data
    */
   public void close () {
+    eraseData();
+
     try {
       con.close();
       System.out.println("Connection with the database closed");
@@ -139,6 +176,31 @@ public class DataBaseManager {
       System.err.println("Unexpected error ocurred with the database");
       System.err.println(ex.getMessage());
       System.exit(1);
+    }
+  }
+
+  /**
+   * Erase the rows where all its values are 'FALSE'
+   */
+  private void eraseData () {
+    String erase = "DELETE FROM words " +
+      "WHERE Excluded='FALSE' AND Find='FALSE' AND Label='FALSE'";
+    Statement st = null;
+
+    try {
+      st = con.createStatement();
+      st.execute(erase);
+    } catch (SQLException ex) {
+      System.err.println("Unexpected error ocurred with the database");
+      System.err.println(ex.getMessage());
+      System.exit(1);
+    } finally {
+      try {
+        if (st != null) st.close();
+      } catch (SQLException ex) {
+        System.err.println("Unexpected error ocurred with the database");
+        System.err.println(ex.getMessage());
+      }
     }
   }
 }

@@ -19,7 +19,7 @@ public class WMFind extends WordsManager {
     this.database = database;
 
     //row = {'word', "TRUE"}
-    for (String[] row : database.getall("Find")) {
+    for (String[] row : database.getAll("Find")) {
       //Add the word with a counter of 0
       found.put(row[0], 0);
     }

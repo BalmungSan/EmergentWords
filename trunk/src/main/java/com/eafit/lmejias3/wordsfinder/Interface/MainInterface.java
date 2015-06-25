@@ -1,8 +1,9 @@
 package com.eafit.lmejias3.wordsfinder.Interface;
 
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
 import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
 import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsFinder;
 
@@ -14,7 +15,8 @@ import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsFinder;
 public class MainInterface extends JFrame implements ActionListener {
 
   //Names of the columns of the database used by the program
-  private final String databases[] = {"ExcludedWords", "FindWords", "Labels"};
+  private final String names[] = {"Excluded", "Find", "Label"};
+  private JComboBox columns;
 
   //Conection with the database
   private DataBaseManager database;
@@ -36,20 +38,45 @@ public class MainInterface extends JFrame implements ActionListener {
    * @see WordsFinderInterface
    */
   public MainInterface () {
-    //Initializate classes used in the program --------------------------
+    //Initializate classes used in the program ---------------------------
     //Database
     database = new DataBaseManager();
 
     //Interfaces
     dbo = new DataBaseOperationsInterface(database);
     wfi = new WordsFinderInterface(new WordsFinder(database));
-    //--------------------------------------------------------------------
+    //---------------------------------------------------------------------
 
     //Configure the interface with a BorderLayout -------------------------
     setTitle("WORDSFINDER");
-    setSize(400, 150);
+    setSize(420, 150);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     setLayout(new BorderLayout());
+    //---------------------------------------------------------------------
+
+    //Add components ------------------------------------------------------
+    String welcome = "Welcome to WordsFinder, " +
+      "Select the action you want to perform";
+    add(new JLabel(welcome), BorderLayout.NORTH);
+
+    JButton findButton = new JButton("Open File");
+    findButton.setActionCommand("Find");
+    findButton.addActionListener(this);
+    add(findButton, BorderLayout.EAST);
+
+    JButton dboButton = new JButton("Database Operations");
+    dboButton.setActionCommand("Database");
+    dboButton.addActionListener(this);
+    add(dboButton, BorderLayout.WEST);
+
+    columns = new JComboBox(names);
+    add(columns, BorderLayout.CENTER);
+
+    JButton vdbButton = new JButton("View Database");
+    vdbButton.setActionCommand("Result");
+    vdbButton.addActionListener(this);
+    add(vdbButton, BorderLayout.SOUTH);
+    //---------------------------------------------------------------------
   }
 
   /**
@@ -58,6 +85,18 @@ public class MainInterface extends JFrame implements ActionListener {
    */
   @Override
   public void actionPerformed(ActionEvent evt) {
+    String Action = evt.getActionCommand();
+    switch (Action){
+    case "Find":
+      wfi.setVisible(true);
+      break;
+    case "Database":
+      dbo.setVisible(true);
+      break;
+    case "Result":
+      getResults();
+      break;
+    }
   }
 
   /**
@@ -72,5 +111,26 @@ public class MainInterface extends JFrame implements ActionListener {
     wfi.dispose();
     database.close();
     System.out.println("Goodbye, see you soon");
+  }
+
+  /**
+   * Get all the information about the user's selected column
+   *from the database,  and show it in a new ResultInterface
+   */
+  private void getResults () {
+    String column = columns.getSelectedItem().toString();
+    DefaultTableModel information = new DefaultTableModel();
+    information.addColumn("WORD");
+    information.addColumn(column);
+
+    //row = {'word', 'data'} where the selected column is <> 'FALSE'
+    for (String[] row : database.getAll(column)) {
+      //Add every row in the database to information
+      information.addRow(row);
+    }
+
+    String message = "The following are all the words in the database";
+    ResultInterface results = new ResultInterface(information, message);
+    results.setVisible(true);
   }
 }

@@ -23,7 +23,7 @@ public class WMExclude extends WordsManager {
     excluded = new HashSet<>();
 
     //row = {'word', "TRUE"};
-    for (String[] row : database.getall("Excluded")) {
+    for (String[] row : database.getAll("Excluded")) {
       //Add word to the excluded set
       excluded.add(row[0]);
     }
