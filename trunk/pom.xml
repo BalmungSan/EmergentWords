@@ -7,7 +7,7 @@
   <groupId>com.eafit.lmejias3.wordsfinder</groupId>
   <artifactId>wordsfinder</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.4-(24_06_2015)-SNAPSHOT</version>
+  <version>0.1.5-(25_06_2015)-SNAPSHOT</version>
   <name>wordsfinder</name>
   <url>http://maven.apache.org</url>
 
@@ -50,6 +50,13 @@
       <version>1.8.9</version>
     </dependency>
 
+    <!-- ApachePOI to open doc and docx files -->
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>3.12</version>
+    </dependency>
+
     <!-- Commons IO to open binary files -->
     <dependency>
       <groupId>commons-io</groupId>
@@ -57,11 +64,11 @@
       <version>2.4</version>
     </dependency>
 
-    <!-- ApachePOI to open doc and docx files -->
+    <!-- Commons Lang to remove sub Strings from a string -->
     <dependency>
-      <groupId>org.apache.poi</groupId>
-      <artifactId>poi</artifactId>
-      <version>3.12</version>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.4</version>
     </dependency>
   </dependencies>
 

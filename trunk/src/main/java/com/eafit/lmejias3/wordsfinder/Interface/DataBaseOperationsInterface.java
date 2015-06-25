@@ -28,62 +28,114 @@ public class DataBaseOperationsInterface extends JFrame
   JButton eraseButton, saveButton;
 
   /**
-   * Constructor of the Interface with a GridLayout
+   * Constructor of the Interface with a GridBagLayout
    * @param database Reference to a DataBaseManager instance
-   * @see GridLayout
+   * @see GridBagLayout
    * @see DataBaseManager
    */
   public DataBaseOperationsInterface (DataBaseManager database) {
     this.database = database;
 
-    //Configure the interface with a GribLayout ---------------------------
+    //Configure the interface with a GribBagLayout ------------------------
     setTitle("DATABASE OPERATIONS");
     setSize(400, 150);
     setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-    setLayout(new GridLayout(4,3));
+    setLayout(new GridBagLayout());
+    GridBagConstraints c = new GridBagConstraints();
+    c.fill = GridBagConstraints.HORIZONTAL;
     //---------------------------------------------------------------------
 
     //Add components ------------------------------------------------------
     //Row 1
-    add(new JLabel("Word"));
-    add(new JLabel());
-    add(new JLabel("Label"));
+    c.gridx = 0;
+    c.gridy = 0;
+    c.gridwidth = 3;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(new JLabel("Word"), c);
+
+    c.gridx = 3;
+    c.gridy = 0;
+    c.gridwidth = 3;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(new JLabel("Label"), c);
 
     //Row 2
     words = new JComboBox();
-    add(words);
-
-    add(new JLabel());
+    c.gridx = 0;
+    c.gridy = 1;
+    c.gridwidth = 3;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(words, c);
 
     labels = new JComboBox();
-    add(labels);
+    c.gridx = 3;
+    c.gridy = 1;
+    c.gridwidth = 3;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(labels, c);
 
     updateComboBoxes();
 
     //Row 3
     newWord = new JTextField("Write the new word");
     newWord.setEditable(true);
-    add(newWord);
-
-    add(new JLabel());
+    c.gridx = 0;
+    c.gridy = 2;
+    c.gridwidth = 3;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(newWord, c);
 
     newLabel = new JTextField("Write the new label");
     newLabel.setEditable(true);
-    add(newLabel);
+    c.gridx = 3;
+    c.gridy = 2;
+    c.gridwidth = 3;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(newLabel, c);
 
     //Row 4
-    add(new JLabel());
+    c.gridx = 0;
+    c.gridy = 3;
+    c.gridwidth = 2;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(new JLabel(), c);
 
     eraseButton = new JButton("Erase");
     eraseButton.setActionCommand("Delete");
     eraseButton.addActionListener(this);
     eraseButton.setEnabled(false);
-    add(eraseButton);
+    c.gridx = 2;
+    c.gridy = 3;
+    c.gridwidth = 2;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(eraseButton, c);
 
     saveButton = new JButton("Save");
     saveButton.setActionCommand("Add");
     saveButton.addActionListener(this);
-    add(saveButton);
+    c.gridx = 4;
+    c.gridy = 3;
+    c.gridwidth = 2;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(saveButton, c);
     //---------------------------------------------------------------------
 
     //Add Actions listeners to JComboBoxes --------------------------------
@@ -107,7 +159,8 @@ public class DataBaseOperationsInterface extends JFrame
               eraseButton.setEnabled(false);
             } else {
               //If not, desactivate the text field and activate the button
-              newWord.setEditable(true);
+              newWord.setEditable(false);
+              newWord.setText("Write the new word");
               eraseButton.setEnabled(true);
             }
           }
@@ -135,6 +188,7 @@ public class DataBaseOperationsInterface extends JFrame
             } else {
               //If not, desactivate the text field
               newLabel.setEditable(false);
+              newLabel.setText("Write the new label");
             }
           }
         }
@@ -167,6 +221,7 @@ public class DataBaseOperationsInterface extends JFrame
    */
   private void addData () {
     String word = "", column = "", data = "";
+    boolean isLabels = false;
 
     if (words.getSelectedItem().toString().equals("New")) {
       word = newWord.getText();
@@ -176,7 +231,7 @@ public class DataBaseOperationsInterface extends JFrame
 
     switch (labels.getSelectedItem().toString()) {
     case "New":
-      column = "Label";
+      isLabels = true;
       data = newLabel.getText();
       break;
     case "Find":
@@ -188,19 +243,21 @@ public class DataBaseOperationsInterface extends JFrame
       data = "TRUE";
       break;
     default:
-      column = "Label";
+      isLabels = true;
       data = labels.getSelectedItem().toString();
       break;
     }
 
-    database.updateData(word, column, data);
+    if (isLabels) database.updateDataLabels(word, data, true);
+    else database.updateData(word, column, data);
   }
 
   /**
    * Erase data from the database
    */
   private void deleteData () {
-    String word = "", column = "";
+    String word = "", column = "", data = "";
+    boolean isLabels = false;
 
     word = words.getSelectedItem().toString();
 
@@ -212,11 +269,15 @@ public class DataBaseOperationsInterface extends JFrame
       column = "Excluded";
       break;
     default:
-      column = "Label";
+      isLabels = true;
+      data = labels.getSelectedItem().toString();
       break;
     }
 
-    database.updateData(word, column, "FALSE");
+    if (isLabels) database.updateDataLabels(word, data, false);
+    else database.updateData(word, column, "FALSE");
+
+    database.eraseData();
   }
 
   /**
@@ -233,6 +294,6 @@ public class DataBaseOperationsInterface extends JFrame
     labels.addItem("New");
     labels.addItem("Excluded");
     labels.addItem("Find");
-    for (String item : database.getDifferent("Label")) labels.addItem(item);
+    for (String item : database.getDifferent("Labels")) labels.addItem(item);
   }
 }

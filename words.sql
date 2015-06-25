@@ -15,15 +15,16 @@ SET time_zone = "+00:00";
 
 --
 -- Table structure for table `words`
--- Remark: The default value for every column is 'FALSE' 
+-- Remark: The default value for Excluded and Find colomns is 'FALSE' 
 --         to exclude that row when making a consult
+--         And for Labels is an empty string ('') to append the labels added by the user
 --
 
 CREATE TABLE IF NOT EXISTS `words` (
   `Word` varchar(50) NOT NULL COMMENT 'Words save by the user',
   `Excluded` varchar(5) NOT NULL DEFAULT 'FALSE' COMMENT 'Determine if the word is excluded or not',
   `Find` varchar(5) NOT NULL DEFAULT 'FALSE' COMMENT 'Determine if the word will be searched or not',
-  `Label` varchar(50)NOT NULL DEFAULT 'FALSE' COMMENT 'Determine the label of the word'
+  `Labels` varchar(535) NOT NULL DEFAULT '' COMMENT 'Labels associated with this word'
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='list of words used by wordsfinder';
 
 -- Make word as the primary key of the table

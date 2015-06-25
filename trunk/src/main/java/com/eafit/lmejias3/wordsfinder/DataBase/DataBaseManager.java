@@ -1,9 +1,8 @@
 package com.eafit.lmejias3.wordsfinder.DataBase;
 
 import java.sql.*;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.*;
+import org.apache.commons.lang3.StringUtils;
 
 /**
  *This class manage all the operations with the database
@@ -21,6 +20,14 @@ public class DataBaseManager {
 
   //Password for user to login in local host with phpMyAdmin
   private final String PASSWORD = "a120020254B.";
+
+  //Prepared statements for update Labels column
+  private final String updateLabels = "INSERT INTO words (Word, Labels) " +
+    "VALUES (?, CONCAT(?, ', ')) ON DUPLICATE " +
+		"KEY UPDATE Labels = CONCAT(Labels, ?, ', ')";
+
+  private final String eraseLabels = "UPDATE words SET Labels=? " +
+    "WHERE Word=?";
 
   /**
    * Constructor of the class, gets a connection with the database
@@ -62,15 +69,15 @@ public class DataBaseManager {
     try {
       //Get the words of all rows where the column is not 'FALSE'
       st  = con.createStatement();
-      rs = st.executeQuery("select Word, " + column +
-                           " from words where " + column +
+      rs = st.executeQuery("SELECT Word, " + column +
+                           " FROM words WHERE " + column +
                            "<>'FALSE'");
 
       //Save the information
       while (rs.next()) {
         data = new String[2];
         data[0] = rs.getString(1); //word
-        data[1] = rs.getString(2); //column
+        data[1] = StringUtils.replace(rs.getString(2), ",", ""); //column
         result.add(data);
       }
     } catch (SQLException ex) {
@@ -96,18 +103,20 @@ public class DataBaseManager {
    * @param column name of the column to match
    * @return a List with all the different values of the column
    */
-  public List<String> getDifferent (String column) {
-    List<String> result = new ArrayList<>();
+  public Set<String> getDifferent (String column) {
+    Set<String> result = new TreeSet<>();
     Statement st = null;
     ResultSet rs = null;
 
     try {
       st  = con.createStatement();
-      rs = st.executeQuery("select distinct " + column +" from words");
+      rs = st.executeQuery("SELECT DISTINCT " + column + " FROM words");
 
       //Save the information
       while (rs.next()) {
-        if (!rs.getString(1).equals("FALSE")) result.add(rs.getString(1));
+        for (String s : rs.getString(1).split(", ")) {
+          if (!s.equals("")) result.add(s);
+        }
       }
     } catch (SQLException ex) {
       System.err.println("Unexpected error ocurred with the database");
@@ -124,7 +133,6 @@ public class DataBaseManager {
       }
     }
 
-    Collections.sort(result);
     return result;
   }
 
@@ -132,14 +140,16 @@ public class DataBaseManager {
    * Add data to the database
    * Add a new row if word not exist
    * If exist, update the row
+   * Only for Excluded and Find Columns
    * @param word primary key
    * @param column name of the column where the information is inserted
    * @param data information to store in column
+   * @see updateDataLabels
    */
   public void updateData (String word, String column, String data) {
     //Query to update the table
     PreparedStatement pst = null;
-    String update = "INSERT INTO `words` (Word, " + column + ") VALUES " +
+    String update = "INSERT INTO words (Word, " + column + ") VALUES " +
       "(?, ?) ON DUPLICATE KEY UPDATE " + column + "=?";
 
     try {
@@ -164,11 +174,65 @@ public class DataBaseManager {
   }
 
   /**
+   * Update the word's labels column
+   * @param word primary key
+   * @param data information to modify in lables column
+   * @param insert flag that determine if data is added or is erased
+   * @see updateData
+   */
+  public void updateDataLabels (String word, String data, boolean insert) {
+    PreparedStatement pst = null;
+    Statement st = null;
+    ResultSet rs = null;
+
+    try {
+      if (insert) {
+        //If insert is 'true' append the data
+        pst = con.prepareStatement(updateLabels);
+        pst.setString(1, word);
+        pst.setString(2, data);
+        pst.setString(3, data);
+        pst.executeUpdate();
+      } else {
+        //If not, erase the data
+
+        //Get the actual data
+        String query = "SELECT Labels FROM words WHERE Word='" + word +"'";
+        st = con.createStatement();
+        rs = st.executeQuery(query);
+        rs.next();
+        String result = rs.getString(1);
+
+        //Erase the data
+        result = StringUtils.remove(result, data + ", ");
+
+        //Update the information
+        pst = con.prepareStatement(eraseLabels);
+        pst.setString(1, result);
+        pst.setString(2, word);
+        pst.executeUpdate();
+      }
+    } catch (SQLException ex) {
+      System.err.println("Unexpected error ocurred with the database");
+      System.err.println(ex.getMessage());
+      System.exit(1);
+    } finally {
+      try {
+        if (pst != null) pst.close();
+        if (st != null) st.close();
+        if (rs != null) rs.close();
+      } catch (SQLException ex) {
+        System.err.println("Unexpected error ocurred with the database");
+        System.err.println(ex.getMessage());
+        System.exit(1);
+      }
+    }
+  }
+
+  /**
    * Close the connection with the database and erase innecesary data
    */
   public void close () {
-    eraseData();
-
     try {
       con.close();
       System.out.println("Connection with the database closed");
@@ -180,11 +244,14 @@ public class DataBaseManager {
   }
 
   /**
-   * Erase the rows where all its values are 'FALSE'
+   * Erase the words where its rows are
+   * Word Excluded Find  Labels
+   *  *    FAlSE   FALSE  ''
+   * Because that means that word is unused
    */
-  private void eraseData () {
+  public void eraseData () {
     String erase = "DELETE FROM words " +
-      "WHERE Excluded='FALSE' AND Find='FALSE' AND Label='FALSE'";
+      "WHERE Excluded='FALSE' AND Find='FALSE' AND Labels=''";
     Statement st = null;
 
     try {

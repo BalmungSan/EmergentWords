@@ -11,7 +11,7 @@ import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
 public class WMLabels extends  WordsManager {
 
   //Map <Word, Label>
-  private Map<String, String> labels;
+  private Map<String, List<String>> labels;
 
   /**
    * Constructor of the class
@@ -23,13 +23,15 @@ public class WMLabels extends  WordsManager {
     this.database = database;
     labels = new HashMap<>();
 
-    //row = {'word', 'label'}
-    for (String[] row : database.getAll("Label")) {
-      //Add to labels the pair wors -> label
-      labels.put(row[0], row[1]);
+    //row = {'word', 'labels'} | labels = "label1 label2 ..."
+    for (String[] row : database.getAll("Labels")) {
+      //Add to labels the pair wors -> List<labesl>
+      labels.put(row[0], Arrays.asList(row[1].split(" ")));
+    }
 
-      //Add the label with a counter of 0
-      found.put(row[1], 0);
+    for (String l : database.getDifferent("Labels")) {
+      //Add every label with a counter of 0
+      found.put(l, 0);
     }
   }
 
@@ -42,9 +44,10 @@ public class WMLabels extends  WordsManager {
     if (labels.get(word) != null) {
       //If word has a label defined by the user
       //Increase the counter
-      String label = labels.get(word);
-      int counter = found.get(label) + 1;
-      found.replace(label, counter);
+      for ( String label : labels.get(word)) {
+        int counter = found.get(label) + 1;
+        found.replace(label, counter);
+      }
     }
   }
 }

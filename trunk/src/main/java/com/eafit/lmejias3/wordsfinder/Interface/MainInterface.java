@@ -15,7 +15,7 @@ import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsFinder;
 public class MainInterface extends JFrame implements ActionListener {
 
   //Names of the columns of the database used by the program
-  private final String names[] = {"Excluded", "Find", "Label"};
+  private final String names[] = {"Excluded", "Find", "Labels"};
   private JComboBox columns;
 
   //Conection with the database
@@ -49,7 +49,7 @@ public class MainInterface extends JFrame implements ActionListener {
 
     //Configure the interface with a BorderLayout -------------------------
     setTitle("WORDSFINDER");
-    setSize(420, 150);
+    setSize(420, 120);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     setLayout(new BorderLayout());
     //---------------------------------------------------------------------

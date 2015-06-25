@@ -35,6 +35,8 @@ public class WordsFinder {
    */
   public void findWords (String mode, String filename) {
     //Configure app to work with user selected mode
+    System.out.println("Abrir " + filename + "\n\rcon el modo " + mode);
+
     switch (mode) {
     case "F":
       //The mode is to find specific words

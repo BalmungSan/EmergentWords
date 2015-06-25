@@ -4,6 +4,7 @@ import javax.swing.*;
 import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
 import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsFinder;
 
 /**
@@ -23,6 +24,9 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
   //Filters of extensions used by the program
   FileNameExtensionFilter filter;
 
+  //File selected by the user
+  File file;
+
   /**
    * Constructor of the Interface using a GridBagLayout
    * @param wf Reference to WordsFinder instance
@@ -36,7 +40,7 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
 
     //Initializate the extensions filter
     filter = new FileNameExtensionFilter("Text documents", "doc", "docx",
-                                         "pdf");
+                                         "pdf", "txt");
 
     //Configure the interface with a GribBagLayout -------------------------
     setTitle("SETTINGS");
@@ -152,12 +156,17 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
       chooser.setFileFilter(filter);
       int returnVal = chooser.showOpenDialog(this);
       if(returnVal == JFileChooser.APPROVE_OPTION) {
-        path.setText(chooser.getSelectedFile().getName());
+        file = chooser.getSelectedFile();
+        path.setText(file.getName());
       }
       break;
     case "Search":
       wordsfinder.findWords(modes.getSelection().getActionCommand(),
-                            path.getText());
+                            file.getAbsolutePath());
+
+      String ms = "The results of the searching are the following";
+      ResultInterface ri = new ResultInterface(wordsfinder.getResults(), ms);
+      ri.setVisible(true);
       break;
     }
   }

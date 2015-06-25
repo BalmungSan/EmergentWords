@@ -1,5 +1,5 @@
 Project: WordsFinder; Java application to analyze texts for the most repetitive words
-Version: 0.1.4 (24/06/2015) "SNAPSHOT"
+Version: 0.1.5 (25/06/2015) "SNAPSHOT"
 Author: Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)
 
 Description:
@@ -17,6 +17,7 @@ Description:
     Apache POI to work with doc and docx files
     Apache PDFBox to work with pdf files
     Apache CommonsIO to work IO Operations
+    Apache Commons Lang for String operations
     PHPMyAdmin to the database management
 
 Install:
