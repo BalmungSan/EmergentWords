@@ -5,7 +5,7 @@ import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsFinder;
+import com.eafit.lmejias3.wordsfinder.WordsFinder.*;
 
 /**
  * Interface for the user to select a file and the mode of searching
@@ -15,7 +15,7 @@ import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsFinder;
 public class WordsFinderInterface extends JFrame implements ActionListener {
 
   //WordsFinder class to pass the file selected by the user
-  WordsFinder wordsfinder;
+  WordsFinder wf;
 
   //Components of the interface
   JTextField path;
@@ -36,7 +36,7 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
    */
   public WordsFinderInterface (WordsFinder wf) {
     //Initializate wordsfinder
-    wordsfinder = wf;
+    this.wf = wf;
 
     //Initializate the extensions filter
     filter = new FileNameExtensionFilter("Text documents", "doc", "docx",
@@ -161,12 +161,19 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
       }
       break;
     case "Search":
-      wordsfinder.findWords(modes.getSelection().getActionCommand(),
-                            file.getAbsolutePath());
+      try {
+        wf.findWords(modes.getSelection().getActionCommand(),
+                     file.getAbsolutePath());
 
-      String ms = "The results of the searching are the following";
-      ResultInterface ri = new ResultInterface(wordsfinder.getResults(), ms);
-      ri.setVisible(true);
+        String ms = "The results of the searching are the following";
+        ResultInterface ri = new ResultInterface(wf.getResults(), ms);
+        ri.setVisible(true);
+      } catch (userCancellationException ex) {
+        System.err.println(ex.getMessage());
+      } finally {
+        wf.clear();
+      }
+
       break;
     }
   }

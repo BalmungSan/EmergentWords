@@ -50,4 +50,13 @@ public class WMLabels extends  WordsManager {
       }
     }
   }
+
+  /**
+   * Clear found an labels
+   */
+  @Override
+  public void clear () {
+    found.clear();
+    labels.clear();
+  }
 }

@@ -50,4 +50,13 @@ public class WMExclude extends WordsManager {
       }
     }
   }
+
+  /**
+   * Clear found and excluded
+   */
+  @Override
+  public void clear () {
+    found.clear();
+    excluded.clear();
+  }
 }

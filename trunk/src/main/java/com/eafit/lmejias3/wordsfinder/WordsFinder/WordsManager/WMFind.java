@@ -39,4 +39,12 @@ public class WMFind extends WordsManager {
       found.replace(word, times);
     }
   }
+
+  /**
+   * clear found
+   */
+  @Override
+  public void clear () {
+    found.clear();
+  }
 }
