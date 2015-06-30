@@ -1,5 +1,5 @@
 Project: WordsFinder; Java application to analyze texts for the most repetitive words
-Version: 0.1.6 (26/06/2015) "SNAPSHOT"
+Version: 0.1.7 (30/06/2015) "SNAPSHOT"
 Author: Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)
 
 Description:

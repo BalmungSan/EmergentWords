@@ -162,8 +162,7 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
       break;
     case "Search":
       try {
-        wf.findWords(modes.getSelection().getActionCommand(),
-                     file.getAbsolutePath());
+        wf.findWords(modes.getSelection().getActionCommand(), file);
 
         String ms = "The results of the searching are the following";
         ResultInterface ri = new ResultInterface(wf.getResults(), ms);

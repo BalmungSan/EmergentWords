@@ -31,7 +31,7 @@ public class WMFind extends WordsManager {
    * @param word String with the word found
    */
   @Override
-  public void addword (String word) {
+  public void addWord (String word) {
     if (found.get(word) != null) {
       //If word is one of the words to find
       //Increase the counter

@@ -44,7 +44,7 @@ public class MainInterface extends JFrame implements ActionListener {
 
     //Interfaces
     dbo = new DataBaseOperationsInterface(database);
-    wfi = new WordsFinderInterface(new WordsFinder(database, this));
+    wfi = new WordsFinderInterface(new WordsFinder(database));
     //---------------------------------------------------------------------
 
     //Configure the interface with a BorderLayout -------------------------

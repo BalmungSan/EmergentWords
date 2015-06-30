@@ -7,7 +7,7 @@
   <groupId>com.eafit.lmejias3.wordsfinder</groupId>
   <artifactId>wordsfinder</artifactId>
   <packaging>jar</packaging>
-  <version>0.1.6-(26_06_2015)-SNAPSHOT</version>
+  <version>0.1.7-(30_06_2015)-SNAPSHOT</version>
   <name>wordsfinder</name>
   <url>http://maven.apache.org</url>
 
@@ -54,6 +54,18 @@
     <dependency>
       <groupId>org.apache.poi</groupId>
       <artifactId>poi</artifactId>
+      <version>3.12</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-scratchpad</artifactId>
+      <version>3.12</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.poi</groupId>
+      <artifactId>poi-ooxml</artifactId>
       <version>3.12</version>
     </dependency>
 

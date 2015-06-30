@@ -35,7 +35,7 @@ public class WMExclude extends WordsManager {
    * @param word String with the word found
    */
   @Override
-  public void addword (String word) {
+  public void addWord (String word) {
     if (!excluded.contains(word)) {
       //If word is not a excluded word
 

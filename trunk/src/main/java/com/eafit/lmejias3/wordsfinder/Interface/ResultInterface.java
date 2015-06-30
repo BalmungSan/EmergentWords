@@ -2,6 +2,7 @@ package com.eafit.lmejias3.wordsfinder.Interface;
 
 import java.awt.BorderLayout;
 import java.awt.Label;
+import java.awt.Font;
 import java.awt.event.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.*;
@@ -42,6 +43,7 @@ public class ResultInterface extends JFrame implements ActionListener {
     add(new Label(message), BorderLayout.NORTH);
 
     JScrollPane scrollTable = new JScrollPane(new JTable(model));
+    scrollTable.setFont(new Font("Serif", Font.ITALIC, 12));
     add(scrollTable, BorderLayout.CENTER);
 
     JButton save = new JButton ("Save results");

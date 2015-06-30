@@ -40,7 +40,7 @@ public class WMLabels extends  WordsManager {
    * @param word String with the word found
    */
   @Override
-  public void addword (String word) {
+  public void addWord (String word) {
     if (labels.get(word) != null) {
       //If word has a label defined by the user
       //Increase the counter

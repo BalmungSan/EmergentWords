@@ -9,7 +9,7 @@ import java.awt.event.*;
  * Project WordsFinder: Java application to analyze texts
  *                      to find the most repetitive words
  *
- * @version 0.1.6 (26/06/2015) "SANPSHOT"
+ * @version 0.1.7 (30/06/2015) "SANPSHOT"
  * @author Luis Miguel Mejía Suárez "BalmungSan" (github.com/BalmungSan)
  *
  * Main class all the code logic start here

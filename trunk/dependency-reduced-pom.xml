@@ -4,7 +4,7 @@
   <groupId>com.eafit.lmejias3.wordsfinder</groupId>
   <artifactId>wordsfinder</artifactId>
   <name>wordsfinder</name>
-  <version>0.1.6-(26_06_2015)-SNAPSHOT</version>
+  <version>0.1.7-(28_06_2015)-SNAPSHOT</version>
   <url>http://maven.apache.org</url>
   <build>
     <plugins>

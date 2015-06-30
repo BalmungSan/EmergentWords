@@ -20,7 +20,7 @@ public abstract class WordsManager {
    * Add the word to the found map
    * @param word to analyze
    */
-  public abstract void addword (String word);
+  public abstract void addWord (String word);
 
   /**
    * Clear the data to free space
