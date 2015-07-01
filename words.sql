@@ -21,11 +21,11 @@ SET time_zone = "+00:00";
 --
 
 CREATE TABLE IF NOT EXISTS `words` (
-  `Word` varchar(50) NOT NULL COMMENT 'Words save by the user',
+  `Word` varchar(50)  COLLATE utf8_bin NOT NULL COMMENT 'Words save by the user',
   `Excluded` varchar(5) NOT NULL DEFAULT 'FALSE' COMMENT 'Determine if the word is excluded or not',
   `Find` varchar(5) NOT NULL DEFAULT 'FALSE' COMMENT 'Determine if the word will be searched or not',
-  `Labels` varchar(535) NOT NULL DEFAULT '' COMMENT 'Labels associated with this word'
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COMMENT='list of words used by wordsfinder';
+  `Labels` varchar(535)  COLLATE utf8_bin NOT NULL DEFAULT '' COMMENT 'Labels associated with this word'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin COMMENT='list of words used by wordsfinder';
 
 -- Make word as the primary key of the table
 ALTER TABLE `words`

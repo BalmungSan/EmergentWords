@@ -31,7 +31,7 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
    * Constructor of the Interface using a GridBagLayout
    * @param wf Reference to WordsFinder instance
    * @see GridBagLayout
-   * @see GridBagConstrains
+   * @see GridBagConstraints
    * @see WordsFinder
    */
   public WordsFinderInterface (WordsFinder wf) {
@@ -161,18 +161,7 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
       }
       break;
     case "Search":
-      try {
-        wf.findWords(modes.getSelection().getActionCommand(), file);
-
-        String ms = "The results of the searching are the following";
-        ResultInterface ri = new ResultInterface(wf.getResults(), ms);
-        ri.setVisible(true);
-      } catch (userCancellationException ex) {
-        System.err.println(ex.getMessage());
-      } finally {
-        wf.clear();
-      }
-
+      wf.findWords(modes.getSelection().getActionCommand(), file);
       break;
     }
   }

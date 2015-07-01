@@ -21,7 +21,7 @@ public class WMFind extends WordsManager {
     //row = {'word', "TRUE"}
     for (String[] row : database.getAll("Find")) {
       //Add the word with a counter of 0
-      found.put(row[0], 0);
+      found.put(row[0].toLowerCase(), 0);
     }
   }
 

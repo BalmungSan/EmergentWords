@@ -25,7 +25,7 @@ public class WMExclude extends WordsManager {
     //row = {'word', "TRUE"};
     for (String[] row : database.getAll("Excluded")) {
       //Add word to the excluded set
-      excluded.add(row[0]);
+      excluded.add(row[0].toLowerCase());
     }
   }
 

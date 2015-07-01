@@ -1,6 +1,7 @@
 package com.eafit.lmejias3.wordsfinder.WordsFinder;
 
 import java.util.*;
+import java.util.concurrent.ExecutionException;
 import java.io.*;
 import java.awt.event.*;
 import javax.swing.*;
@@ -8,6 +9,7 @@ import javax.swing.table.DefaultTableModel;
 import java.nio.charset.Charset;
 import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsManager.*;
 import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
+import com.eafit.lmejias3.wordsfinder.Interface.ResultInterface;
 import org.apache.commons.io.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hwpf.HWPFDocument;
@@ -38,7 +40,8 @@ public class WordsFinder {
     = {"0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "\"", "\'", "\\",
        "(", ")", "{", "}", "[", "]", ",", ";", ".", ":", "&", "|", "°", "¬",
        "_", "-", "!", "¡", "?", "¿", "#", "$", "%", "~", "`", "´", "¨", "^",
-       "<", ">", "+", "*", "/", "="};
+       "<", ">", "+", "*", "/", "=", "@", "ł", "€", "¶", "ŧ", "←", "↓", "→",
+       "ø", "þ", "æ", "ß", "đ", "ŋ", "ħ", "«", "»", "“", "”", "µ"};
 
   /**
    * Constructor of the class
@@ -50,12 +53,18 @@ public class WordsFinder {
   }
 
   /**
+   * Clear the data on WordsManager to free space
+   */
+  public void clear () {
+    mywm.clear();
+  }
+
+  /**
    * Here start all the logic of the program
    * @param mode Flag that indicate the mode selected by the user
    * @param file File the user chose
    */
-  public void findWords (String mode, File file)
-    throws userCancellationException {
+  public void findWords (String mode, File file) {
 
     //Configure app to work with user selected mode
     switch (mode) {
@@ -75,32 +84,13 @@ public class WordsFinder {
 
     //Open the file
     openfile(file);
-
-    //Sort the results
-    sort(mywm.getfound());
-  }
-
-  /**
-   * Clear the data on WordsManager to free space
-   */
-  public void clear () {
-    mywm.clear();
-  }
-
-  /**
-   * Return the results of the search
-   * @return TableModel with the results
-   * @see DefaultTableModel
-   */
-  public DefaultTableModel getResults() {
-    return results;
   }
 
   /**
    * Detect what type of file is ('.doc', '.docx', '.pdf' or binary text)
    * @param file File the user chose
    */
-  private void openfile (File file) throws userCancellationException {
+  private void openfile (File file) {
 
     String ext = FilenameUtils.getExtension(file.getName()).toLowerCase();
     String text = "";
@@ -136,6 +126,10 @@ public class WordsFinder {
 
   /**
    * Open a .doc file
+   * Create a {@link HWPFDocument} from the InputStream of the file
+   * and then create a {@link WordExtractor}
+   * finally gets a String with all the data in the file with
+   * {@link  WordExtractor#getText getText} method
    * @param is Input Stream from the file the user chose
    * @return All the text in the file
    */
@@ -148,6 +142,10 @@ public class WordsFinder {
 
   /**
    * Open a .docx file
+   * Create a {@link XWPFDocument} from the InputStream of the file
+   * and then create a {@link XWPFWordExtractor}
+   * finally gets a String with all the data in the file with
+   * {@link  XWPFWordExtractor#getText getText} method
    * @param is Input Stream from the file the user chose
    * @return All the text in the file
    */
@@ -160,17 +158,23 @@ public class WordsFinder {
 
   /**
    * Open a .pdf file
+   * First create a {@link PDFParser} with the InoutStream of the file
+   * Then create a {@link COSDocument} from the parser, and a
+   * {@link PDDocument} from this.
+   * Finally create a {@link PDFTextStripper} and get a String of the file
+   * with {@link PDFTextStripper#getText getText} method
    * @param is Input Stream from the file the user chose
    * @return All the text in the file
+   * @see PDFBox
    */
   private String openpdf (InputStream is) throws IOException {
     PDFParser parser = new PDFParser(is);
     parser.parse();
 
     COSDocument cosDoc = parser.getDocument();
-    PDFTextStripper pdfStripper = new PDFTextStripper();
     PDDocument pdDoc = new PDDocument(cosDoc);
 
+    PDFTextStripper pdfStripper = new PDFTextStripper();
     pdfStripper.setStartPage(1);
     pdfStripper.setEndPage(pdDoc.getNumberOfPages());
 
@@ -179,8 +183,12 @@ public class WordsFinder {
 
   /**
    * Open a binary file usually .txt
+   * Converts the InputStream of the file to a string using
+   * {@link IOUtils#toString toString} with UTF-8 encoding
    * @param is Input Stream from the file the user chose
    * @return All the text in the file
+   * @see IOUtils
+   * @see Charset
    */
   private String openbin (InputStream is) throws IOException {
     return IOUtils.toString(is, Charset.forName("UTF-8"));
@@ -193,31 +201,33 @@ public class WordsFinder {
    * @param contents All the data in the file
    * @see ProgressMonitor
    */
-  private void getWords (String contents) throws userCancellationException {
+  private void getWords (String contents) {
 
     //Remove every reserved char from the text
     for (String r : rc) contents = StringUtils.replace(contents, r, " ");
 
     //Create a new task and execute it
-    Task task = new Task();
-    task.setText(contents);
+    Task task = new Task(contents, this);
     task.execute();
-
-    //BAD BLOCK
-    synchronized(task) {
-      try {
-        //Wait until task is finished
-        task.wait();
-      } catch (InterruptedException ex) {
-        //If the task have been cancelled by the user
-        throw new userCancellationException("You have canceled " +
-                                            "the searching");
-      }
-    }
   }
 
   /**
-   * Sort a map<String key, Integer value> by value
+   * Call when the task has done
+   */
+  private void finish () {
+    //Sort the results
+    sort(mywm.getfound());
+
+    //Show the results in the interface
+    String ms = "The results of the searching are the following";
+    ResultInterface ri = new ResultInterface(results, ms);
+    ri.setVisible(true);
+
+    clear();
+  }
+
+  /**
+   * Sort a map<String key, Integer value> by value (high to low)
    * remark: This code was taken and adapted from:
    *         http://www.mkyong.com/java/how-to-sort-a-map-in-java/
    * @param unsortMap Map to sort by value
@@ -233,7 +243,7 @@ public class WordsFinder {
     Collections.sort(list, new Comparator<Map.Entry<String, Integer>>() {
         public int compare(Map.Entry<String, Integer> o1,
                            Map.Entry<String, Integer> o2) {
-          return (o1.getValue()).compareTo(o2.getValue());
+          return (o2.getValue()).compareTo(o1.getValue());
         }
       });
 
@@ -242,6 +252,7 @@ public class WordsFinder {
     results.addColumn("WORD");
     results.addColumn("TIMES");
     Object[] row;
+
     for (Map.Entry<String, Integer> entry : list) {
       row = new Object[2];
       row[0] = entry.getKey();
@@ -264,10 +275,26 @@ public class WordsFinder {
     //Text to analyze
     private String text;
 
+    //Reference to my my father
+    private WordsFinder father;
+
+    /**
+     * Constructor of this task
+     * Set the text to process
+     * @param text String with all the data in the file
+     * @param father Reference to the instance of {@link WordsFinder}
+     * that have call us
+     */
+    public Task (String text, WordsFinder father) {
+      this.text = text;
+      this.father  = father;
+    }
+
     @Override
-    public Void doInBackground() {
+    public synchronized Void doInBackground() {
+      String words[] = text.split("\\s+");
       counter = 0;
-      total = text.length();
+      total = words.length;
 
       //Initialization of progress monitor from 0 to the length of the text
       pbar = new ProgressMonitor(null, "Searching words progress",
@@ -275,22 +302,15 @@ public class WordsFinder {
 
       //For every word in the text
       //the words are separated by a blank space [ \t\n\x0B\f\r]
-      for (String word : text.split("\\s+")) {
+      for (String word : words) {
         if (!isCancelled()) {
           //If the user have not cancelled the execution, do...
-
-          System.out.println(word);
 
           //Send the word to the instance of the words manager class
           mywm.addWord(word.toLowerCase());
 
           //Update the progress monitor
-          update(word.length());
-
-          //Sleep for one second, to check the progress monitor
-          try {
-            Thread.sleep(1000);
-          } catch (InterruptedException ex) {}
+          update();
         } else {
           //If the user have cancelled the execution, break
           break;
@@ -298,41 +318,32 @@ public class WordsFinder {
       }
 
       pbar.close();
-      notifyAll();
       return null;
     }
 
     @Override
-    public void done() {
-      pbar.setProgress(0);
-      notifyAll();
+    public synchronized void done() {
+      //Tell WordsFinder the task has been completed or cancelled
+      if(!isCancelled()) father.finish();
+      else father.clear();
     }
 
     /**
      * Update the progress of the progress monitor
-     * @param pro the length of the word operated
      * @see ProgressMonitor
      */
-    private void update (int pro) {
+    private synchronized void update () {
       //Check if the user has pressed the button 'Cancel'
       if (pbar.isCanceled()) {
         //If was pressed, cancel the execution
-        pbar.close();
         this.cancel(true);
-        notifyAll();
+        System.err.println("You have cancelled the searching");
       } else {
         //If not, update the progress
         pbar.setProgress(counter);
-        pbar.setNote("Operation is " + counter + "% complete");
-        counter += pro * 100 / total;
+        pbar.setNote("Operation is " + counter * 100 / total + "% complete");
+        counter ++;
       }
-    }
-
-    /**
-     * Set the texto to process
-     */
-    public void setText (String text) {
-      this.text = text;
     }
   }
 }

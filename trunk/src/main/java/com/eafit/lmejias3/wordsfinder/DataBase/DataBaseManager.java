@@ -13,18 +13,21 @@ public class DataBaseManager {
   private Connection con;
 
   //Database path
-  private final String DB = "//localhost/WordsFinder";
+  private final String DB = "";
 
   //User name to login in local host with phpMyAdmin
-  private final String USER = "root";
+  private final String USER = "";
 
   //Password for user to login in local host with phpMyAdmin
-  private final String PASSWORD = "a120020254B.";
+  private final String PASSWORD = "";
+
+  //Querry to get all the table
+  private final String all = "SELECT * FROM words";
 
   //Prepared statements for update Labels column
   private final String updateLabels = "INSERT INTO words (Word, Labels) " +
     "VALUES (?, CONCAT(?, ', ')) ON DUPLICATE " +
-		"KEY UPDATE Labels = CONCAT(Labels, ?, ', ')";
+    "KEY UPDATE Labels = CONCAT(Labels, ?, ', ')";
 
   private final String eraseLabels = "UPDATE words SET Labels=? " +
     "WHERE Word=?";
@@ -53,6 +56,50 @@ public class DataBaseManager {
       System.out.println("Unexpected error:  " + e.getMessage());
       System.exit(1);
     }
+  }
+
+  /**
+   * Get all the data in the database
+   * @return a List with all the rows of the table
+   */
+  public List<String[]> getTable () {
+    String data[];
+    List<String[]> result = new ArrayList<>();
+    Statement st = null;
+    ResultSet rs = null;
+
+
+    try {
+      st  = con.createStatement();
+      rs = st.executeQuery(all);
+
+      //Save the information
+      while (rs.next()) {
+        data = new String[4];
+
+        data[0] = rs.getString(1); //word
+        data[1] = rs.getString(2); //excluded
+        data[2] = rs.getString(3); //find
+        data[3] = StringUtils.replace(rs.getString(4), ",", ""); //label
+
+        result.add(data);
+      }
+    } catch (SQLException ex) {
+      System.err.println("Unexpected error ocurred with the database");
+      System.err.println(ex.getMessage());
+      System.exit(1);
+    } finally {
+      try {
+        if (st != null) st.close();
+        if (rs != null) rs.close();
+      } catch (SQLException ex) {
+        System.err.println("Unexpected error ocurred with the database");
+        System.err.println(ex.getMessage());
+        System.exit(1);
+      }
+    }
+
+    return result;
   }
 
   /**
@@ -141,10 +188,10 @@ public class DataBaseManager {
    * Add a new row if word not exist
    * If exist, update the row
    * Only for Excluded and Find Columns
+   * for Labels clomun see {@link #updateDataLabels}
    * @param word primary key
    * @param column name of the column where the information is inserted
    * @param data information to store in column
-   * @see updateDataLabels
    */
   public void updateData (String word, String column, String data) {
     //Query to update the table
@@ -175,10 +222,10 @@ public class DataBaseManager {
 
   /**
    * Update the word's labels column
+   * Works like {@link #updateData} but for the labels column
    * @param word primary key
    * @param data information to modify in lables column
    * @param insert flag that determine if data is added or is erased
-   * @see updateData
    */
   public void updateDataLabels (String word, String data, boolean insert) {
     PreparedStatement pst = null;

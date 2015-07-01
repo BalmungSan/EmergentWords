@@ -26,7 +26,7 @@ public class WMLabels extends  WordsManager {
     //row = {'word', 'labels'} | labels = "label1 label2 ..."
     for (String[] row : database.getAll("Labels")) {
       //Add to labels the pair wors -> List<labesl>
-      labels.put(row[0], Arrays.asList(row[1].split(" ")));
+      labels.put(row[0].toLowerCase(), Arrays.asList(row[1].split(" ")));
     }
 
     for (String l : database.getDifferent("Labels")) {
@@ -44,7 +44,7 @@ public class WMLabels extends  WordsManager {
     if (labels.get(word) != null) {
       //If word has a label defined by the user
       //Increase the counter
-      for ( String label : labels.get(word)) {
+      for (String label : labels.get(word)) {
         int counter = found.get(label) + 1;
         found.replace(label, counter);
       }

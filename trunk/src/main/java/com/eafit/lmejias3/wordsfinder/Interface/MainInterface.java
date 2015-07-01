@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
+import java.util.List;
 import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
 import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsFinder;
 
@@ -15,7 +16,7 @@ import com.eafit.lmejias3.wordsfinder.WordsFinder.WordsFinder;
 public class MainInterface extends JFrame implements ActionListener {
 
   //Names of the columns of the database used by the program
-  private final String names[] = {"Excluded", "Find", "Labels"};
+  private final String names[] = {"All", "Excluded", "Find", "Labels"};
   private JComboBox columns;
 
   //Conection with the database
@@ -118,13 +119,26 @@ public class MainInterface extends JFrame implements ActionListener {
    *from the database,  and show it in a new ResultInterface
    */
   private void getResults () {
-    String column = columns.getSelectedItem().toString();
+    List<String[]> rows;
     DefaultTableModel information = new DefaultTableModel();
     information.addColumn("WORD");
-    information.addColumn(column);
 
-    //row = {'word', 'data'} where the selected column is <> 'FALSE'
-    for (String[] row : database.getAll(column)) {
+    if (columns.getSelectedItem().toString().equals("All")) {
+      information.addColumn("EXCLUDED");
+      information.addColumn("FIND");
+      information.addColumn("LABELS");
+
+      //rows = List<{'word', 'excluded', 'find', 'lables'}>
+      rows = database.getTable();
+    } else {
+      String column = columns.getSelectedItem().toString();
+      information.addColumn(column);
+
+      //rows = List<{'word', 'data'}> where the selected column is <> 'FALSE'
+      rows = database.getAll(column);
+    }
+
+    for (String[] row : rows) {
       //Add every row in the database to information
       information.addRow(row);
     }
