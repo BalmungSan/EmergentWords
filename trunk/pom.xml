@@ -1,13 +1,27 @@
-<!-- Pom file to compile the project using maven -->
+<!-- Pom file to compile the project using maven 
+
+Copyright 2015 EAFIT (http://www.eafit.edu.co/Paginas/index.aspx)
+
+   Licensed under the Apache License, Version 2.0 (the "License");
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an "AS IS" BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License. -->
 
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.eafit.lmejias3.wordsfinder</groupId>
+  <groupId>co.edu.eafit.wordsfinder</groupId>
   <artifactId>wordsfinder</artifactId>
   <packaging>jar</packaging>
-  <version>1.0.1-(01_07_2015)-BETA</version>
+  <version>1.1.1-(30_07_2015)-GA</version>
   <name>wordsfinder</name>
   <url>http://maven.apache.org</url>
 
@@ -40,7 +54,7 @@
     <dependency>
       <groupId>mysql</groupId>
       <artifactId>mysql-connector-java</artifactId>
-      <version>5.1.35</version>
+      <version>5.1.36</version>
     </dependency>
 
     <!-- PDFBox to open pdf files -->
@@ -94,17 +108,20 @@
         <version>2.4</version>
         <configuration>
           <transformers>
-            <!-- Include the README to the generated Jar -->
+		    <!-- Prevent License duplicates -->
+		    <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheLicenseResourceTransformer"> </transformer>
+		  
             <transformer implementation="org.apache.maven.plugins.shade.resource.IncludeResourceTransformer">
+			  <!-- Include the README to the generated Jar -->
               <resource>META-INF/README</resource>
-              <file>../README.md</file>
+              <file>../README.txt</file>
             </transformer>
 
             <!-- Configure the MANIFEST of the Jar -->
             <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
               <manifestEntries>
                 <!-- Add entry point -->
-                <Main-Class>com.MainWordsFinder</Main-Class>
+                <Main-Class>co.MainWordsFinder</Main-Class>
                 <!-- Add the JDK source and target entry -->
                 <X-Compile-Source-JDK>1.8</X-Compile-Source-JDK>
                 <X-Compile-Target-JDK>1.8</X-Compile-Target-JDK>

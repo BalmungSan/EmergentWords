@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
-  <groupId>com.eafit.lmejias3.wordsfinder</groupId>
+  <groupId>co.edu.eafit.wordsfinder</groupId>
   <artifactId>wordsfinder</artifactId>
   <name>wordsfinder</name>
-  <version>1.0.1-(01_07_2015)-BETA</version>
+  <version>1.1.1-(30_07_2015)-GA</version>
   <url>http://maven.apache.org</url>
   <build>
     <plugins>
@@ -21,13 +21,14 @@
         </executions>
         <configuration>
           <transformers>
+            <transformer />
             <transformer>
               <resource>META-INF/README</resource>
-              <file>../README.md</file>
+              <file>../README.txt</file>
             </transformer>
             <transformer>
               <manifestEntries>
-                <Main-Class>com.MainWordsFinder</Main-Class>
+                <Main-Class>co.MainWordsFinder</Main-Class>
                 <X-Compile-Source-JDK>1.8</X-Compile-Source-JDK>
                 <X-Compile-Target-JDK>1.8</X-Compile-Target-JDK>
               </manifestEntries>

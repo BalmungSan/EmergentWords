@@ -1,11 +1,5 @@
--- phpMyAdmin SQL Dump
--- version 4.4.9
--- http://www.phpmyadmin.net
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
-
-/*!40101 SET NAMES utf8 */;
 
 --
 -- Database: `WordsFinder`
