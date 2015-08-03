@@ -1,7 +1,7 @@
-package co.edu.eafit.wordsfinder.WordsFinder.WordsManager;
+package co.edu.eafit.emergentwords.WordsFinder.WordsManager;
 
 import java.util.*;
-import co.edu.eafit.wordsfinder.DataBase.DataBaseManager;
+import co.edu.eafit.emergentwords.DataBase.DataBaseManager;
 
 /**
  * Implementation of WordsManager to find all words

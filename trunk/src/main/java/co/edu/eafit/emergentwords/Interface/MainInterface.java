@@ -1,12 +1,12 @@
-package co.edu.eafit.wordsfinder.Interface;
+package co.edu.eafit.emergentwords.Interface;
 
 import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
-import co.edu.eafit.wordsfinder.DataBase.DataBaseManager;
-import co.edu.eafit.wordsfinder.WordsFinder.WordsFinder;
+import co.edu.eafit.emergentwords.DataBase.DataBaseManager;
+import co.edu.eafit.emergentwords.WordsFinder.WordsFinder;
 
 /**
  * Main Interfce, the program starts here
@@ -49,7 +49,7 @@ public class MainInterface extends JFrame implements ActionListener {
     //---------------------------------------------------------------------
 
     //Configure the interface with a BorderLayout -------------------------
-    setTitle("WORDSFINDER");
+    setTitle("EMERGENTWORDS");
     setSize(420, 120);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     setLayout(new BorderLayout());
@@ -60,7 +60,7 @@ public class MainInterface extends JFrame implements ActionListener {
       "Select the action you want to perform";
     add(new JLabel(welcome), BorderLayout.NORTH);
 
-    JButton findButton = new JButton("Open File");
+    JButton findButton = new JButton("Words Finer");
     findButton.setActionCommand("Find");
     findButton.addActionListener(this);
     add(findButton, BorderLayout.EAST);

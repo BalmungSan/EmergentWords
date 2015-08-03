@@ -12,19 +12,23 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 
-Project: WordsFinder; Java application to analyse texts
-Version: 1.1.1-(30_07_2015)-GA
-Author: Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)
+Project: EmergentWords; Java application to analyse texts
+Version: 1.1.2-(3_08_2015)-GA
+Author and Researcher: Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)
+Main Researcher: Juan Carlos Montalvo Rodrigez (http://scienti1.colciencias.gov.co:8081/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0001021150)
 
 Description:
-   WordsFinder is a simple program with a intuitive graphical interface which allow the user to analyse a text file
+   EmergentWords is a simple program with a intuitive graphical interface which allow the user to analyse a text file
    Supports plain text, doc or docx files and pdf files.
+
+   EmergentWords was development as colavorative work between Luis Miguel Mejía Suárez and the Management Doctoral student
+   Juan Carlos Montalvo Rodrigez. For qualitative research on the relation between organizational creativity and innovative companies 
 
    The program have the following usage:
     *The user can find the most repetitive words in the file, excluding some words the user don't want
     *The user can search for specific words in the file
     *The user can analyse the file in base of some labels
-	*The user can extract pieces of text in base of a specific word
+    *The user can extract pieces of text in base of a specific word
     *The user can personalize the database which the program works
 
    This project use the following dependencies:
@@ -51,6 +55,6 @@ Install:
 
     4 Finally copy the Jar wherever you want. 
 	
-	Note: For Windows machines you could use the installer provided in this repository (WindowsInstaler.vbs)
+   Note: For Windows machines you could use the installer provided in this repository (WindowsInstaler.vbs)
 
    ENJOY

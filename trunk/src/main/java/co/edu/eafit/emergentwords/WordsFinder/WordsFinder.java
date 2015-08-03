@@ -1,13 +1,13 @@
-package co.edu.eafit.wordsfinder.WordsFinder;
+package co.edu.eafit.emergentwords.WordsFinder;
 
 import java.util.*;
 import java.io.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.nio.charset.Charset;
-import co.edu.eafit.wordsfinder.WordsFinder.WordsManager.*;
-import co.edu.eafit.wordsfinder.DataBase.DataBaseManager;
-import co.edu.eafit.wordsfinder.Interface.ResultInterface;
+import co.edu.eafit.emergentwords.WordsFinder.WordsManager.*;
+import co.edu.eafit.emergentwords.DataBase.DataBaseManager;
+import co.edu.eafit.emergentwords.Interface.ResultInterface;
 import org.apache.commons.io.*;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hwpf.HWPFDocument;
@@ -31,7 +31,7 @@ public class WordsFinder {
 
   //Conection with database
   private final DataBaseManager database;
-  
+
   //The message of the search
   private String ms;
 
@@ -67,24 +67,24 @@ public class WordsFinder {
   public void findWords (String mode, File file) {
 
     //Add the file name to the message
-	ms = file.getName();
-	
+    ms = file.getName();
+
     //Configure app to work with user selected mode
     switch (mode) {
     case "F":
       //The mode is to find specific words
       mywm = new WMFind(database);
-	  ms = ms + " - FIND";
+      ms = ms + " - FIND";
       break;
     case "E":
       //The mode is to find all words
       mywm = new WMExclude(database);
-	  ms = ms + " - EXCLUDED";
+      ms = ms + " - EXCLUDED";
       break;
     case "L":
       //The mode is to find labels
       mywm = new WMLabels(database);
-	  ms = ms + " - LABELS";
+      ms = ms + " - LABELS";
       break;
     }
 

@@ -12,9 +12,11 @@
 '   See the License for the specific language governing permissions and
 '   limitations under the License.
 
-' Project: WordsFinder; Java application to analyse texts for the most repetitive words
-' Version: 1.1.1-(30_07_2015)-GA
-' Author: Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)
+'Project: EmergentWords; Java application to analyse texts
+'Version: 1.1.2-(3_08_2015)-GA
+'Author and Researcher: Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)
+'Main Researcher: Juan Carlos Montalvo Rodrigez (http://scienti1.colciencias.gov.co:8081/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0001021150)
+
 ' Visual Basic Script to install wordsfinder in Windows platforms 
 
 'Launch the script as admin
@@ -101,7 +103,7 @@ Commands = Commands & Chr(34) & "& " & SQLPath & " -h " & SQLServer & " -u " & S
 'Compile the project
 Commands = Commands & Chr(34) & "& mvn -f trunk/pom.xml package" & Chr(34)
 'Copy the generated Jar to the current folder
-Commands = Commands & Chr(34) & "& copy /v /y ""trunk\target\wordsfinder-1.1.1-(30_07_2015)-GA.jar"" WordsFinder.jar" & Chr(34)
+Commands = Commands & Chr(34) & "& copy /v /y ""trunk\target\EmergentWords-1.1.2-(3_08_2015)-GA.jar"" EmergentWords.jar" & Chr(34)
 'Clean the mvn generated files
 Commands = Commands & Chr(34) & "& mvn -f trunk/pom.xml clean" & Chr(34)
 '-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

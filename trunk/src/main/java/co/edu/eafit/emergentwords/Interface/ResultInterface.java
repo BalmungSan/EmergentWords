@@ -1,4 +1,4 @@
-package co.edu.eafit.wordsfinder.Interface;
+package co.edu.eafit.emergentwords.Interface;
 
 import java.awt.BorderLayout;
 import java.awt.Label;
@@ -27,7 +27,7 @@ public class ResultInterface extends JFrame implements ActionListener {
   //Model of table to save the results
   private final DefaultTableModel model;
   private final String message;
-  
+
   //Extension filter for the file to save the results
   private final FileNameExtensionFilter filter;
 
@@ -41,13 +41,13 @@ public class ResultInterface extends JFrame implements ActionListener {
    */
   public ResultInterface (DefaultTableModel model, String message) {
     filter = new FileNameExtensionFilter("Excel Documents", "xlsx");
-      
+
     //Get the actual date and hour
     DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
     Date date = new Date();
     this.message = message + " - " + dateFormat.format(date);
     this.model = model;
-	
+
     setTitle("RESULTS");
     setLayout(new BorderLayout());
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
@@ -88,46 +88,45 @@ public class ResultInterface extends JFrame implements ActionListener {
         XSSFWorkbook workbook = null;
 
         try {
-            //Open the excel file to store the results
-		  
-            //Get the workbook instance for XLS file 
-            workbook = new XSSFWorkbook(new FileInputStream(file));
-            //Get first sheet from the workbook
-            XSSFSheet sheet = workbook.getSheetAt(0);
-            
-            //Variables to use
-            XSSFRow row = null;
-            XSSFCell cell = null;
-            int rowNum = 0, cellNum = 0;
-            
-            //Iterate for every row to find the first blank row
-            for (Row r : sheet) rowNum++;
-            row = sheet.createRow(rowNum);
-                    
-            //Now save all the results in very cell of the row
+          //Open the excel file to store the results
+
+          //Get the workbook instance for XLS file
+          workbook = new XSSFWorkbook(new FileInputStream(file));
+          //Get first sheet from the workbook
+          XSSFSheet sheet = workbook.getSheetAt(0);
+
+          //Variables to use
+          XSSFRow row = null;
+          XSSFCell cell = null;
+          int rowNum = 0, cellNum = 0;
+
+          //Iterate for every row to find the first blank row
+          for (Row r : sheet) rowNum++;
+          row = sheet.createRow(rowNum);
+
+          //Now save all the results in very cell of the row
+          cell = row.createCell(cellNum++, 1);
+          cell.setCellValue(message);
+          Iterator i = model.getDataVector().iterator();
+          while (i.hasNext()) {
             cell = row.createCell(cellNum++, 1);
-            cell.setCellValue(message);
-            Iterator i = model.getDataVector().iterator();
-            while (i.hasNext()) {
-                cell = row.createCell(cellNum++, 1);
-                cell.setCellValue(i.next().toString());
-            }
-            
-            outFile = new FileOutputStream(file);
-            workbook.write(outFile);
-            System.out.println("Excel written successfully..");
+            cell.setCellValue(i.next().toString());
+          }
+
+          outFile = new FileOutputStream(file);
+          workbook.write(outFile);
+          System.out.println("Excel written successfully..");
         } catch (NullPointerException ex) {
           System.err.println("Unexpected error ocurred " + ex.getMessage());
         } catch (IOException  ioex) {
           System.err.println("Error ocurred: " + ioex.getMessage());
         } finally {
-            try {
-                if (workbook != null) workbook.close();
-                if (outFile != null) outFile.close();
-            } catch (IOException ex) {
-              Logger.getLogger(ResultInterface.class.getName()).log(Level.SEVERE,
-                      null, ex);
-            }
+          try {
+            if (workbook != null) workbook.close();
+            if (outFile != null) outFile.close();
+          } catch (IOException ioex) {
+            System.err.println("Error ocurred: " + ioex.getMessage());
+          }
         }
       }
     }

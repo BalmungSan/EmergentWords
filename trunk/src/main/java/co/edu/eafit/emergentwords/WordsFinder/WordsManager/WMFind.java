@@ -1,7 +1,6 @@
-package com.eafit.lmejias3.wordsfinder.WordsFinder.WordsManager;
+package co.edu.eafit.emergentwords.WordsFinder.WordsManager;
 
-import java.util.*;
-import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
+import co.edu.eafit.emergentwords.DataBase.DataBaseManager;
 
 /**
  * Implementation of WordsManager to find specific words in a file

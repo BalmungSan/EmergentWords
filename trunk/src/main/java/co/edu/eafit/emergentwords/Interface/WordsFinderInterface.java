@@ -1,11 +1,11 @@
-package com.eafit.lmejias3.wordsfinder.Interface;
+package co.edu.eafit.emergentwords.Interface;
 
 import javax.swing.*;
 import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import com.eafit.lmejias3.wordsfinder.WordsFinder.*;
+import co.edu.eafit.emergentwords.WordsFinder.WordsFinder;
 
 /**
  * Interface for the user to select a file and the mode of searching
@@ -15,17 +15,17 @@ import com.eafit.lmejias3.wordsfinder.WordsFinder.*;
 public class WordsFinderInterface extends JFrame implements ActionListener {
 
   //WordsFinder class to pass the file selected by the user
-  WordsFinder wf;
+  private final WordsFinder wf;
 
   //Components of the interface
-  JTextField path;
-  ButtonGroup modes;
+  private final JTextField path;
+  private final ButtonGroup modes;
 
   //Filters of extensions used by the program
-  FileNameExtensionFilter filter;
+  private final FileNameExtensionFilter filter;
 
   //File selected by the user
-  File file;
+  private File file;
 
   /**
    * Constructor of the Interface using a GridBagLayout
@@ -43,7 +43,7 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
                                          "pdf", "txt");
 
     //Configure the interface with a GribBagLayout -------------------------
-    setTitle("SETTINGS");
+    setTitle("WORDS FINDER");
     setSize(400, 150);
     setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
     setLayout(new GridBagLayout());
@@ -52,14 +52,14 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
     //----------------------------------------------------------------------
 
     //Add componets --------------------------------------------------------
-    JLabel file = new JLabel("File");
+    JLabel filePath = new JLabel("File");
     c.gridx = 0;
     c.gridy = 0;
     c.gridwidth = 1;
     c.gridheight = 1;
     c.weightx = 1.0;
     c.weighty = 1.0;
-    add(file, c);
+    add(filePath, c);
 
     path = new JTextField("");
     path.setEditable(false);
@@ -144,6 +144,7 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
 
   /**
    * Here are handled all the events activated in this interface
+   * @param evt The event
    * @see ActionEvent
    */
   @Override
@@ -154,6 +155,7 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
       //Open a file choser for the user select the file
       JFileChooser chooser = new JFileChooser();
       chooser.setFileFilter(filter);
+      chooser.setDialogTitle("Select the file to analyze");
       int returnVal = chooser.showOpenDialog(this);
       if(returnVal == JFileChooser.APPROVE_OPTION) {
         file = chooser.getSelectedFile();

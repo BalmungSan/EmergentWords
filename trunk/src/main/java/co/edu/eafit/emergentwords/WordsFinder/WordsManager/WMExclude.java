@@ -1,7 +1,7 @@
-package com.eafit.lmejias3.wordsfinder.WordsFinder.WordsManager;
+package co.edu.eafit.emergentwords.WordsFinder.WordsManager;
 
 import java.util.*;
-import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
+import co.edu.eafit.emergentwords.DataBase.DataBaseManager;
 
 /**
  * Implementation of WordsManager to find all words in a file
@@ -10,7 +10,7 @@ import com.eafit.lmejias3.wordsfinder.DataBase.DataBaseManager;
 public class WMExclude extends WordsManager {
 
   //Set of excluded words
-  private Set<String> excluded;
+  private final Set<String> excluded;
 
   /**
    * Constructor of the class

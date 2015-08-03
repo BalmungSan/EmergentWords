@@ -1,9 +1,9 @@
-package co.edu.eafit.wordsfinder.Interface;
+package co.edu.eafit.emergentwords.Interface;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
-import co.edu.eafit.wordsfinder.DataBase.DataBaseManager;
+import co.edu.eafit.emergentwords.DataBase.DataBaseManager;
 
 /**
  * Interface for the user to add or remove rows to the selected DB

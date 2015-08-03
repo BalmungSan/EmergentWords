@@ -1,8 +1,8 @@
-package co.edu.eafit.wordsfinder.WordsFinder.WordsManager;
+package co.edu.eafit.emergentwords.WordsFinder.WordsManager;
 
 import java.util.Map;
 import java.util.HashMap;
-import co.edu.eafit.wordsfinder.DataBase.DataBaseManager;
+import co.edu.eafit.emergentwords.DataBase.DataBaseManager;
 
 /**
  * Abstract class Wordsmanager

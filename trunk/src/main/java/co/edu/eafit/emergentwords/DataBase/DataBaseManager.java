@@ -1,4 +1,4 @@
-package co.edu.eafit.wordsfinder.DataBase;
+package co.edu.eafit.emergentwords.DataBase;
 
 import java.sql.*;
 import java.util.*;
