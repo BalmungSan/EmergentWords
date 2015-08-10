@@ -51,7 +51,7 @@ public class ResultInterface extends JFrame implements ActionListener {
     setTitle("RESULTS");
     setLayout(new BorderLayout());
     setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-    setSize(420, 250);
+    setSize(500, 500);
 
     add(new Label(message), BorderLayout.NORTH);
 

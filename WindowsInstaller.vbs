@@ -13,7 +13,7 @@
 '   limitations under the License.
 
 'Project: EmergentWords; Java application to analyse texts
-'Version: 1.1.2-(3_08_2015)-GA
+'Version: 1.1.5-(09_08_2015)-GA
 'Author and Researcher: Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)
 'Main Researcher: Juan Carlos Montalvo Rodrigez (http://scienti1.colciencias.gov.co:8081/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0001021150)
 
@@ -97,13 +97,13 @@ objFile.Close
 'Move cmd to the current path
 Commands = "cmd.exe /C " &  Chr(34) & "cd " & ActualPath & Chr(34)
 'Create the wordsfider's database 
-Commands = Commands & Chr(34) & "& " & SQLPath & " -h " & SQLServer & " -u " & SQLUser & " -p" & SQLPassword & " -e ""CREATE DATABASE WordsFinder;""" & Chr(34)
+Commands = Commands & Chr(34) & "& " & SQLPath & " -h " & SQLServer & " -u " & SQLUser & " -p" & SQLPassword & " -e ""CREATE DATABASE EmergentWords;""" & Chr(34)
 'Import the words.sql file to the database
 Commands = Commands & Chr(34) & "& " & SQLPath & " -h " & SQLServer & " -u " & SQLUser & " -p" & SQLPassword & " WordsFinder < words.sql" & Chr(34)
 'Compile the project
 Commands = Commands & Chr(34) & "& mvn -f trunk/pom.xml package" & Chr(34)
 'Copy the generated Jar to the current folder
-Commands = Commands & Chr(34) & "& copy /v /y ""trunk\target\EmergentWords-1.1.2-(3_08_2015)-GA.jar"" EmergentWords.jar" & Chr(34)
+Commands = Commands & Chr(34) & "& copy /v /y ""trunk\target\EmergentWords-1.1.5-(09_08_2015)-GA.jar"" EmergentWords.jar" & Chr(34)
 'Clean the mvn generated files
 Commands = Commands & Chr(34) & "& mvn -f trunk/pom.xml clean" & Chr(34)
 '-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------

@@ -25,18 +25,20 @@ public class MainInterface extends JFrame implements ActionListener {
   //Interfaces
   private final WordsFinderInterface wfi;
   private final DataBaseOperationsInterface dbo;
+  private final ScannerInterface sci;
 
   /**
    * Constructor of the Interface with a BorderLayout
    * Create a new instance of DataBaseManager
-   * Create a new instance of WordsFinder
    * Create a new instance of DataBaseOperationsInterface
    * Create a new instance of WordsFinderInterface
-   * @see BorderLayout
+   * Create a new instance of ScannerInterface
    * @see DataBaseManager
-   * @see WordsFinder
    * @see DataBaseOperationsInterface
    * @see WordsFinderInterface
+   * @see ScannerInterface
+   * @see GridBagLayout
+   * @see GridBagConstraints
    */
   public MainInterface () {
     //Initializate classes used in the program ---------------------------
@@ -45,38 +47,82 @@ public class MainInterface extends JFrame implements ActionListener {
 
     //Interfaces
     dbo = new DataBaseOperationsInterface(database);
-    wfi = new WordsFinderInterface(new WordsFinder(database));
+    wfi = new WordsFinderInterface(database);
+    sci = new ScannerInterface();
     //---------------------------------------------------------------------
 
-    //Configure the interface with a BorderLayout -------------------------
+    //Configure the interface with a GribBagLayout ------------------------
     setTitle("EMERGENTWORDS");
-    setSize(420, 120);
+    setSize(300, 400);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
-    setLayout(new BorderLayout());
+    setLayout(new GridBagLayout());
+    GridBagConstraints c = new GridBagConstraints();
+    c.fill = GridBagConstraints.HORIZONTAL;
     //---------------------------------------------------------------------
 
     //Add components ------------------------------------------------------
-    String welcome = "Welcome to WordsFinder, " +
+    String welcome = "Welcome to EmergentWords, " +
       "Select the action you want to perform";
-    add(new JLabel(welcome), BorderLayout.NORTH);
+    c.gridx = 0;
+    c.gridy = 0;
+    c.gridwidth = 2;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(new JLabel(welcome), c);
 
-    JButton findButton = new JButton("Words Finer");
-    findButton.setActionCommand("Find");
-    findButton.addActionListener(this);
-    add(findButton, BorderLayout.EAST);
-
-    JButton dboButton = new JButton("Database Operations");
+    JButton dboButton = new JButton("Database\nOperations");
     dboButton.setActionCommand("Database");
     dboButton.addActionListener(this);
-    add(dboButton, BorderLayout.WEST);
+    c.gridx = 0;
+    c.gridy = 1;
+    c.gridwidth = 1;
+    c.gridheight = 2;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(dboButton, c);
 
     columns = new JComboBox(names);
-    add(columns, BorderLayout.CENTER);
+    c.gridx = 1;
+    c.gridy = 1;
+    c.gridwidth = 1;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(columns, c);
 
     JButton vdbButton = new JButton("View Database");
     vdbButton.setActionCommand("Result");
     vdbButton.addActionListener(this);
-    add(vdbButton, BorderLayout.SOUTH);
+    c.gridx = 1;
+    c.gridy = 2;
+    c.gridwidth = 1;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(vdbButton, c);
+
+    JButton findButton = new JButton("Words Finder");
+    findButton.setActionCommand("Find");
+    findButton.addActionListener(this);
+    c.gridx = 0;
+    c.gridy = 3;
+    c.gridwidth = 1;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(findButton, c);
+
+    JButton sciButton = new JButton("Text Scanner");
+    vdbButton.setActionCommand("Scanner");
+    vdbButton.addActionListener(this);
+    c.gridx = 1;
+    c.gridy = 3;
+    c.gridwidth = 1;
+    c.gridheight = 1;
+    c.weightx = 1.0;
+    c.weighty = 1.0;
+    add(sciButton, c);
     //---------------------------------------------------------------------
   }
 
@@ -95,6 +141,9 @@ public class MainInterface extends JFrame implements ActionListener {
     case "Database":
       dbo.setVisible(true);
       break;
+    case "Scanner":
+      sci.setVisible(true);
+      break;
     case "Result":
       getResults();
       break;
@@ -111,13 +160,15 @@ public class MainInterface extends JFrame implements ActionListener {
     dbo.dispose();
     wfi.setVisible(false);
     wfi.dispose();
+    sci.setVisible(false);
+    sci.dispose();
     database.close();
     System.out.println("Goodbye, see you soon");
   }
 
   /**
    * Get all the information about the user's selected column
-   *from the database,  and show it in a new ResultInterface
+   * from the database,  and show it in a new ResultInterface
    */
   private void getResults () {
     List<String[]> rows;

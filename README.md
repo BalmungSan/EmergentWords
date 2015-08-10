@@ -13,7 +13,7 @@
    limitations under the License.
 
 Project: EmergentWords; Java application to analyse texts
-Version: 1.1.2-(3_08_2015)-GA
+Version: 1.1.5-(09_08_2015)-GA
 Author and Researcher: Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)
 Main Researcher: Juan Carlos Montalvo Rodrigez (http://scienti1.colciencias.gov.co:8081/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0001021150)
 

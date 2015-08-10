@@ -5,23 +5,18 @@ import javax.swing.filechooser.*;
 import java.awt.*;
 import java.awt.event.*;
 import java.io.File;
-import co.edu.eafit.emergentwords.WordsFinder.WordsFinder;
+import co.edu.eafit.emergentwords.WordsFinder.WordsScanner;
 import co.edu.eafit.emergentwords.WordsFinder.FileOpener;
-import co.edu.eafit.emergentwords.DataBase.DataBaseManager;
 
 /**
  * Interface for the user to select a file and the mode of searching
  * @see JFrame
  * @see ActionListener
  */
-public class WordsFinderInterface extends JFrame implements ActionListener {
-
-  //DataBaseManager class to pass to the instance of WordsFiner
-  private final DataBaseManager database;
+public class ScannerInterface extends JFrame implements ActionListener {
 
   //Components of the interface
-  private final JTextField path;
-  private final ButtonGroup modes;
+  private final JTextField path, target, range;
 
   //Filters of extensions used by the program
   private final FileNameExtensionFilter filter;
@@ -31,21 +26,18 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
 
   /**
    * Constructor of the Interface using a GridBagLayout
-   * @param database Reference to DataBaseManager instance
    * @see GridBagLayout
    * @see GridBagConstraints
-   * @see WordsFinder
+   * @see WordsScanner
+   * @see FileOpener
    */
-  public WordsFinderInterface (DataBaseManager database) {
-    //Initializate database
-    this.database = database;
-
+  public ScannerInterface () {
     //Initializate the extensions filter
     filter = new FileNameExtensionFilter("Text documents", "doc", "docx",
                                          "pdf", "txt");
 
     //Configure the interface with a GribBagLayout -------------------------
-    setTitle("WORDS FINDER");
+    setTitle("WORDS SCANNER");
     setSize(400, 150);
     setDefaultCloseOperation(javax.swing.WindowConstants.HIDE_ON_CLOSE);
     setLayout(new GridBagLayout());
@@ -77,59 +69,50 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
     open.setActionCommand("Open");
     open.addActionListener(this);
     c.gridx = 4;
-    c.gridy = 1;
+    c.gridy = 0;
     c.gridwidth = 1;
-    c.gridheight = 1;
+    c.gridheight = 2;
     c.weightx = 1.0;
     c.weighty = 1.0;
     add(open, c);
 
-    JLabel mode = new JLabel("Mode");
+    JLabel targetLabel = new JLabel("Word to search");
     c.gridx = 0;
     c.gridy = 2;
-    c.gridwidth = 1;
+    c.gridwidth = 2;
     c.gridheight = 1;
     c.weightx = 1.0;
     c.weighty = 1.0;
-    add(mode, c);
+    add(targetLabel, c);
 
-
-    //Button Group -----------------------------------------------
-    JRadioButton find = new JRadioButton("Find", true);
-    find.setActionCommand("F");
-    c.gridx = 1;
-    c.gridy = 2;
-    c.gridwidth = 1;
+    target = new JTextField("");
+    path.setEditable(true);
+    c.gridx = 0;
+    c.gridy = 3;
+    c.gridwidth = 2;
     c.gridheight = 1;
     c.weightx = 1.0;
     c.weighty = 1.0;
-    add(find, c);
+    add(target, c);
 
-    JRadioButton excluded = new JRadioButton("Excluded", false);
-    excluded.setActionCommand("E");
+    JLabel rangeLabel = new JLabel("Range of extraction");
     c.gridx = 2;
     c.gridy = 2;
-    c.gridwidth = 1;
+    c.gridwidth = 2;
     c.gridheight = 1;
     c.weightx = 1.0;
     c.weighty = 1.0;
-    add(excluded, c);
+    add(rangeLabel, c);
 
-    JRadioButton labels = new JRadioButton("Labels", false);
-    labels.setActionCommand("L");
-    c.gridx = 3;
-    c.gridy = 2;
-    c.gridwidth = 1;
+    range = new JTextField("");
+    path.setEditable(true);
+    c.gridx = 2;
+    c.gridy = 3;
+    c.gridwidth = 2;
     c.gridheight = 1;
     c.weightx = 1.0;
     c.weighty = 1.0;
-    add(labels, c);
-
-    modes = new ButtonGroup();
-    modes.add(find);
-    modes.add(excluded);
-    modes.add(labels);
-    //------------------------------------------------------------
+    add(range, c);
 
     JButton search = new JButton("Search");
     search.setActionCommand("Search");
@@ -137,7 +120,7 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
     c.gridx = 4;
     c.gridy = 2;
     c.gridwidth = 1;
-    c.gridheight = 1;
+    c.gridheight = 2;
     c.weightx = 1.0;
     c.weighty = 1.0;
     add(search, c);
@@ -165,11 +148,11 @@ public class WordsFinderInterface extends JFrame implements ActionListener {
       }
       break;
     case "Search":
-      WordsFinder wordsfinder
-        = new WordsFinder(database, modes.getSelection().getActionCommand(),
-                          FileOpener.open(file), file.getName());
+      WordsScanner scanner
+        = new WordsScanner(file.getName(), FileOpener.open(file),
+                           target.getText(), range.getText());
 
-      wordsfinder.execute();
+      scanner.execute();
       break;
     }
   }

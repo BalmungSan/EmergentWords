@@ -27,7 +27,7 @@ Main Researcher: Juan Carlos Montalvo Rodrigez (http://scienti1.colciencias.gov.
   <groupId>co.edu.eafit.emergentwords</groupId>
   <artifactId>EmergentWords</artifactId>
   <packaging>jar</packaging>
-  <version>1.1.2-(3_08_2015)-GA</version>
+  <version>1.1.5-(09_08_2015)-GA</version>
   <name>wordsfinder</name>
   <url>http://maven.apache.org</url>
 

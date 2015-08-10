@@ -13,7 +13,7 @@ public class DataBaseManager {
   private Connection con;
 
   //Database path
-  private final String DB = "//SQLSERVER/WordsFinder";
+  private final String DB = "//SQLSERVER/EmergentWords";
 
   //User name to login in local host with phpMyAdmin
   private final String USER = "SQLUSER";

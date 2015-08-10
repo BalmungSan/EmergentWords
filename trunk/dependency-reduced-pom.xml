@@ -4,7 +4,7 @@
   <groupId>co.edu.eafit.emergentwords</groupId>
   <artifactId>EmergentWords</artifactId>
   <name>wordsfinder</name>
-  <version>1.1.2-(3_08_2015)-GA</version>
+  <version>1.1.5-(09_08_2015)-GA</version>
   <url>http://maven.apache.org</url>
   <build>
     <plugins>
