@@ -70,7 +70,7 @@ SQLPassword = InputBox("Please input the password for the user " + SQLUser, "MyS
 
 'Current directory path and DataBaseManager.java file path
 ActualPath = Left(WScript.ScriptFullName,InStrRev(WScript.ScriptFullName,"\"))
-FilePath = ActualPath & "trunk\src\main\java\co\edu\eafit\wordsfinder\DataBase\DataBaseManager.java"
+FilePath = ActualPath & "trunk\src\main\java\co\edu\eafit\emergentwords\DataBase\DataBaseManager.java"
 ActualPath = Chr(34) & ActualPath & Chr(34)
 '-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
@@ -99,7 +99,7 @@ Commands = "cmd.exe /C " &  Chr(34) & "cd " & ActualPath & Chr(34)
 'Create the wordsfider's database 
 Commands = Commands & Chr(34) & "& " & SQLPath & " -h " & SQLServer & " -u " & SQLUser & " -p" & SQLPassword & " -e ""CREATE DATABASE EmergentWords;""" & Chr(34)
 'Import the words.sql file to the database
-Commands = Commands & Chr(34) & "& " & SQLPath & " -h " & SQLServer & " -u " & SQLUser & " -p" & SQLPassword & " WordsFinder < words.sql" & Chr(34)
+Commands = Commands & Chr(34) & "& " & SQLPath & " -h " & SQLServer & " -u " & SQLUser & " -p" & SQLPassword & " EmergentWords < words.sql" & Chr(34)
 'Compile the project
 Commands = Commands & Chr(34) & "& mvn -f trunk/pom.xml package" & Chr(34)
 'Copy the generated Jar to the current folder
