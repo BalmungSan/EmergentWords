@@ -53,7 +53,7 @@ public class MainInterface extends JFrame implements ActionListener {
 
     //Configure the interface with a GribBagLayout ------------------------
     setTitle("EMERGENTWORDS");
-    setSize(300, 400);
+    setSize(450, 200);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     setLayout(new GridBagLayout());
     GridBagConstraints c = new GridBagConstraints();
@@ -76,15 +76,15 @@ public class MainInterface extends JFrame implements ActionListener {
     dboButton.addActionListener(this);
     c.gridx = 0;
     c.gridy = 1;
-    c.gridwidth = 1;
-    c.gridheight = 2;
+    c.gridwidth = 2;
+    c.gridheight = 1;
     c.weightx = 1.0;
     c.weighty = 1.0;
     add(dboButton, c);
 
     columns = new JComboBox(names);
-    c.gridx = 1;
-    c.gridy = 1;
+    c.gridx = 0;
+    c.gridy = 2;
     c.gridwidth = 1;
     c.gridheight = 1;
     c.weightx = 1.0;
@@ -114,8 +114,8 @@ public class MainInterface extends JFrame implements ActionListener {
     add(findButton, c);
 
     JButton sciButton = new JButton("Text Scanner");
-    vdbButton.setActionCommand("Scanner");
-    vdbButton.addActionListener(this);
+    sciButton.setActionCommand("Scanner");
+    sciButton.addActionListener(this);
     c.gridx = 1;
     c.gridy = 3;
     c.gridwidth = 1;

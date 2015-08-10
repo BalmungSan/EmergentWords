@@ -43,8 +43,8 @@ public class WordsFinder extends SwingWorker<Void, Void> {
                       String filename) {
 
     //Initilize worker variables
-		mywm = null;
-		this.words = words;
+    mywm = null;
+    this.words = words;
     results = new DefaultTableModel();
 
     //Initialize progress monitor bar variables
@@ -91,10 +91,6 @@ public class WordsFinder extends SwingWorker<Void, Void> {
 
         //Update the progress monitor
         update();
-
-        try {
-          Thread.sleep(500);
-        } catch (Exception ex) {}
       } else {
         //If the user have cancelled the execution, break
         break;
@@ -129,7 +125,12 @@ public class WordsFinder extends SwingWorker<Void, Void> {
     if (pbar.isCanceled()) {
       //If was pressed, cancel the execution
       this.cancel(true);
+
       System.err.println("You have cancelled the searching");
+
+      //custom title, warning icon
+      JOptionPane.showMessageDialog(null, "You have cancelled the searching",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
     } else {
       //If not, update the progress
       pbar.setProgress(counter);

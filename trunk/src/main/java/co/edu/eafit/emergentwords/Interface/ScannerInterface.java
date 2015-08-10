@@ -148,12 +148,18 @@ public class ScannerInterface extends JFrame implements ActionListener {
       }
       break;
     case "Search":
-      WordsScanner scanner
-        = new WordsScanner(file.getName(), FileOpener.open(file),
-                           target.getText(), range.getText());
+      try {
+        WordsScanner scanner
+          = new WordsScanner(file.getName(), FileOpener.open(file),
+                             target.getText(), range.getText());
 
-      scanner.execute();
-      break;
+        scanner.execute();
+        break;
+      } catch (NumberFormatException e) {
+        //custom title, error icon
+        JOptionPane.showMessageDialog(this, "Bad number for range", "Error",
+                                      JOptionPane.ERROR_MESSAGE);
+      }
     }
   }
 }

@@ -37,7 +37,7 @@ public class WordsScanner extends SwingWorker<Void, Void> {
    * @param range The amount of words to extract
    */
   public WordsScanner (String filename, String[] words, String target,
-                       String range) {
+                       String range) throws NumberFormatException{
 
     //Initilize worker variables
     this.target = target.toLowerCase();
@@ -85,10 +85,6 @@ public class WordsScanner extends SwingWorker<Void, Void> {
 
         //Get the next index
         index = text.indexOf(target, upperbound);
-
-        try {
-          Thread.sleep(500);
-        } catch (Exception ex) {}
       } else {
         //If the user have cancelled the execution, break
         break;
@@ -118,7 +114,12 @@ public class WordsScanner extends SwingWorker<Void, Void> {
     if (pbar.isCanceled()) {
       //If was pressed, cancel the execution
       this.cancel(true);
+
       System.err.println("You have cancelled the searching");
+
+      //custom title, warning icon
+      JOptionPane.showMessageDialog(null, "You have cancelled the searching",
+                                    "Warning", JOptionPane.WARNING_MESSAGE);
     } else {
       //If not, update the progress
       counter = index * 100 / total;
