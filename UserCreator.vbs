@@ -12,12 +12,12 @@
 '   See the License for the specific language governing permissions and
 '   limitations under the License.
 
-'Project: EmergentWords; Java application to analyse texts
-'Version: 1.1.5-(09_08_2015)-GA
+'Project: EmergentWords; Java application to analyse texts (https://github.com/BalmungSan/EmergentWords/tree/office-version)
+'Version: 1.1.6-(11_08_2015)-Amended
 'Author and Researcher: Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)
 'Main Researcher: Juan Carlos Montalvo Rodrigez (http://scienti1.colciencias.gov.co:8081/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0001021150)
 
-' Visual Basic Script to install wordsfinder in Windows platforms 
+' Visual Basic Script to install mysql users in windows platforms
 
 'Launch the script as admin
 If Not WScript.Arguments.Named.Exists("elevate") Then
@@ -62,55 +62,36 @@ Set objReg=GetObject("winmgmts:{impersonationLevel=impersonate}!\\"&_
 strKeyPath = regpath & "MYSQL AB"
 objReg.EnumKey HKEY_LOCAL_MACHINE, strKeyPath, arrSubKeys
 
-'sql variables
-SQLPath = Chr(34) & objShell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\MYSQL AB\" & arrSubKeys(0) & "\Location") & "bin\mysql.exe" & Chr(34)
-SQLServer = InputBox("Please input the IP address of your MySQL server" & vbNewLine & "Note: If the server runs in the machine use 'localhost'", "MySQL Server Address", "localhost")
-SQLUser = InputBox("Please input the user of the MySQL server to login" & vbNewLine & "Note: The most common user is 'root'", "MySQL User", "root")
-SQLPassword = InputBox("Please input the password for the user " + SQLUser, "MySQL Password")
+'MySQl variables
+dim MySQLUser
+MySQLPath = Chr(34) & objShell.RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\MYSQL AB\" & arrSubKeys(0) & "\Location") & "bin\mysql.exe" & Chr(34)
+MySQLServer = InputBox("Please input the IP address of your MySQL server" & vbNewLine & "Note: If the server runs in the machine use 'localhost'", "MySQL Server Address", "localhost")
+MySQLUser = InputBox("Please input the user of the MySQL server to install EmergentWords database", "MySQL User", "root")
+MySQLPassword = InputBox("Please input the password for the user " & MySQLUser, "MySQL Password")
 
 'Current directory path and DataBaseManager.java file path
-ActualPath = Left(WScript.ScriptFullName,InStrRev(WScript.ScriptFullName,"\"))
-FilePath = ActualPath & "trunk\src\main\java\co\edu\eafit\emergentwords\DataBase\DataBaseManager.java"
-ActualPath = Chr(34) & ActualPath & Chr(34)
-'-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-
-'Edit the DataBaseManager.java file ------------------------------------------------------------------------------------------------------------------------------------------------------------
-Const ForReading = 1
-Const ForWriting = 2
-
-Set objFSO = CreateObject("Scripting.FileSystemObject")
-Set objFile = objFSO.OpenTextFile(FilePath, ForReading)
-
-strText = objFile.ReadAll
-objFile.Close
-
-strText = Replace(strText, "SQLSERVER", SQLServer)
-strText = Replace(strText, "SQLUSER", SQLUSER)
-strText = Replace(strText, "SQLPASSWORD", SQLPassword)	
-
-Set objFile = objFSO.OpenTextFile(FilePath, ForWriting)
-objFile.WriteLine strText
-objFile.Close
+ActualPath = Chr(34) & Left(WScript.ScriptFullName,InStrRev(WScript.ScriptFullName,"\")) & Chr(34)
 '-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 'Commands to execute in the cmd as admin -------------------------------------------------------------------------------------------------------------------------------------------------------
 'Move cmd to the current path
 Commands = "cmd.exe /C " &  Chr(34) & "cd " & ActualPath & Chr(34)
-'Create the wordsfider's database 
-Commands = Commands & Chr(34) & "& " & SQLPath & " -h " & SQLServer & " -u " & SQLUser & " -p" & SQLPassword & " -e ""CREATE DATABASE EmergentWords;""" & Chr(34)
+
+'Create the new user if it's different from root
+If StrComp(MySQLUser, "root") <> 0 Then
+	MySQLRootPassword = InputBox("Please input the password for the root user", "MySQL ROOT Password")
+	Commands = Commands & Chr(34) & " & " & MySQLPath & " -h " & MySQLServer & " -u  root -p" & MySQLRootPassword & " -e ""CREATE USER " & Chr(39) & MySQLUser & Chr(39) & "@" & Chr(39) & MySQLServer & Chr(39) & "IDENTIFIED BY " & Chr(39) & MySQLPassword & Chr(39) & "; GRANT ALL PRIVILEGES ON *.* TO" & Chr(39) & MySQLUser & Chr(39) & "@" & Chr(39) & MySQLServer & Chr(39) & ";""" & Chr(34)
+End If
+
+'Create the EmergentWords's database 
+Commands = Commands & Chr(34) & "& " & MySQLPath & " -h " & MySQLServer & " -u " & MySQLUser & " -p" & MySQLPassword & " -e ""CREATE DATABASE EmergentWords" & MySQLUser & ";""" & Chr(34)
 'Import the words.sql file to the database
-Commands = Commands & Chr(34) & "& " & SQLPath & " -h " & SQLServer & " -u " & SQLUser & " -p" & SQLPassword & " EmergentWords < words.sql" & Chr(34)
-'Compile the project
-Commands = Commands & Chr(34) & "& mvn -f trunk/pom.xml package" & Chr(34)
-'Copy the generated Jar to the current folder
-Commands = Commands & Chr(34) & "& copy /v /y ""trunk\target\EmergentWords-1.1.5-(09_08_2015)-GA.jar"" EmergentWords.jar" & Chr(34)
-'Clean the mvn generated files
-Commands = Commands & Chr(34) & "& mvn -f trunk/pom.xml clean" & Chr(34)
+Commands = Commands & Chr(34) & "& " & MySQLPath & " -h " & MySQLServer & " -u " & MySQLUser & " -p" & MySQLPassword & " EmergentWords" & MySQLUser & " < words.sql" & Chr(34)
 '-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 
 'Execute the command as admin
 objShell.run Commands, 1, True
-set objShell = Nothing
 
 'Show a message to the user telling that the installation finished
+set objShell = Nothing
 Wscript.Echo "Installation Finished"

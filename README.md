@@ -12,8 +12,8 @@
    See the License for the specific language governing permissions and
    limitations under the License.
 
-Project: EmergentWords; Java application to analyse texts
-Version: 1.1.5-(09_08_2015)-GA
+Project: EmergentWords; Java application to analyse texts (https://github.com/BalmungSan/EmergentWords/tree/office-version)
+Version: 1.1.6-(11_08_2015)-Amended
 Author and Researcher: Luis Miguel Mejía Suárez "BalmungSan" (https://github.com/BalmungSan)
 Main Researcher: Juan Carlos Montalvo Rodrigez (http://scienti1.colciencias.gov.co:8081/cvlac/visualizador/generarCurriculoCv.do?cod_rh=0001021150)
 

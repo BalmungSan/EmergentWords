@@ -107,7 +107,7 @@ public class WordsScanner extends SwingWorker<Void, Void> {
   /**
    * Update the progress of the progress monitor
    * @see ProgressMonitor
-   * @param index The current position of the text analyzer
+   * @param index The current position of the text analyser
    */
   private synchronized void update (int index) {
     //Check if the user has pressed the button 'Cancel'

@@ -28,7 +28,7 @@ public class MainInterface extends JFrame implements ActionListener {
   private final ScannerInterface sci;
 
   /**
-   * Constructor of the Interface with a BorderLayout
+   * Constructor of the Interface with a GribBagLayout
    * Create a new instance of DataBaseManager
    * Create a new instance of DataBaseOperationsInterface
    * Create a new instance of WordsFinderInterface
@@ -40,10 +40,10 @@ public class MainInterface extends JFrame implements ActionListener {
    * @see GridBagLayout
    * @see GridBagConstraints
    */
-  public MainInterface () {
+  public MainInterface (DataBaseManager database) {
     //Initializate classes used in the program ---------------------------
     //Database
-    database = new DataBaseManager();
+    this.database = database;
 
     //Interfaces
     dbo = new DataBaseOperationsInterface(database);
@@ -53,7 +53,7 @@ public class MainInterface extends JFrame implements ActionListener {
 
     //Configure the interface with a GribBagLayout ------------------------
     setTitle("EMERGENTWORDS");
-    setSize(450, 200);
+    setSize(450, 150);
     setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
     setLayout(new GridBagLayout());
     GridBagConstraints c = new GridBagConstraints();

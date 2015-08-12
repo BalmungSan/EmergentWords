@@ -2,6 +2,7 @@ package co.edu.eafit.emergentwords.DataBase;
 
 import java.sql.*;
 import java.util.*;
+import javax.swing.JOptionPane;
 import org.apache.commons.lang3.StringUtils;
 
 /**
@@ -11,15 +12,6 @@ public class DataBaseManager {
 
   //Conection with the DB
   private Connection con;
-
-  //Database path
-  private final String DB = "//SQLSERVER/EmergentWords";
-
-  //User name to login in local host with phpMyAdmin
-  private final String USER = "SQLUSER";
-
-  //Password for user to login in local host with phpMyAdmin
-  private final String PASSWORD = "SQLPASSWORD";
 
   //Querry to get all the table
   private final String all = "SELECT * FROM words";
@@ -34,25 +26,32 @@ public class DataBaseManager {
 
   /**
    * Constructor of the class, gets a connection with the database
+   * @param DB Database path
+   * @param USER User name to login in the database
+   * @param PASSWORD Password for the user to login in the database
    */
-  public DataBaseManager () {
+  public DataBaseManager (String DB, String USER, String PASSWORD) {
+    //Connect to the Database
     try {
       System.out.println("Conecting with the database ");
       Class.forName("com.mysql.jdbc.Driver");
 
-      con = DriverManager.getConnection("jdbc:mysql:" + DB, USER, PASSWORD);
+      con = DriverManager.getConnection("jdbc:mysql://" + DB
+                                        + "/EmergentWords" + USER, USER,
+                                        PASSWORD);
 
       System.out.println("Connection succesfully");
-    }
-    catch(SQLException e){
+    } catch(SQLException e){
+      //custom title, warning icon
+      JOptionPane.showMessageDialog(null, e.getMessage(), "MYSQL ERROR",
+                                    JOptionPane.ERROR_MESSAGE);
+
       System.out.println("MySQL error " + e.getMessage());
       System.exit(1);
-    }
-    catch(ClassNotFoundException e){
+    } catch(ClassNotFoundException e){
       e.printStackTrace();
       System.exit(1);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       System.out.println("Unexpected error:  " + e.getMessage());
       System.exit(1);
     }
